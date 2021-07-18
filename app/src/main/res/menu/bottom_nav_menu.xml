@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/usFragment"
+        android:title="@string/us"
+        android:icon="@drawable/country_us"/>
+    <item
+        android:id="@+id/plFragment"
+        android:title="@string/pl"
+        android:icon="@drawable/country_pl"/>
+    <item
+        android:id="@+id/uaFragment"
+        android:title="@string/ua"
+        android:icon="@drawable/country_ua"/>
+    <item
+        android:id="@+id/ruFragment"
+        android:title="@string/ru"
+        android:icon="@drawable/country_ru"/>
+</menu>

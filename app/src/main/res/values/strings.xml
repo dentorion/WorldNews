@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">World News</string>
+
+    <!--  Bottom menu  -->
+    <string name="us">USA</string>
+    <string name="pl">POLAND</string>
+    <string name="ua">UKRAINE</string>
+    <string name="ru">RUSSIA</string>
+
+    <!--  Clear news confirmation  -->
+    <string name="dialog_delete_no">ДА</string>
+    <string name="dialog_delete_yes">НЕТ</string>
+    <string name="dialog_delete_message">Очистить новости?</string>
+
+    <!--  Clear news result  -->
+    <string name="news_deleted">NEWS DELETED</string>
+    <string name="choose_country_to_start">choose country to start</string>
+
+    <!-- Detail Page  -->
+    <string name="detail_read_article_btn">READ article</string>
+
+    <!--  Favourite news  -->
+    <string name="swipe_to_delete_news_from_favourite">SWIPE TO DELETE NEWS FROM FAVOURITE</string>
+
+    <!--  Search  -->
+    <string name="type_your_query">type your query</string>
+
+    <!--  Utils  -->
+    <string name="no_network_connection">No network connection</string>
+
+    <!-- Titles  -->
+    <string name="title_usa">United States</string>
+    <string name="title_russia">Russia</string>
+    <string name="title_ukraine">Ukraine</string>
+    <string name="title_poland">Poland</string>
+    <string name="title_source">Source</string>
+    <string name="title_article">Article</string>
+    <string name="title_favourite">Favourite news</string>
+    <string name="title_search">Search news</string>
+
+    <!--  Descriptions  -->
+    <string name="description_circle">circle</string>
+    <string name="description_basket">basket</string>
+    <string name="description_image_article">image</string>
+    <string name="description_red_line">line</string>
+    <string name="description_favourite_btn">favourite</string>
+    <string name="description_share">share</string>
+    <string name="description_author">author</string>
+    <string name="description_eye">eye</string>
+
+</resources>

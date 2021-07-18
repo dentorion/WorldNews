@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navgraph"
+    app:startDestination="@id/usFragment">
+    <fragment
+        android:id="@+id/usFragment"
+        android:name="com.example.worldnews.presentation.ui.country.UsFragment"
+        android:label="@string/title_usa"
+        tools:layout="@layout/fragment_country_news" />
+    <fragment
+        android:id="@+id/ruFragment"
+        android:name="com.example.worldnews.presentation.ui.country.RuFragment"
+        android:label="@string/title_russia"
+        tools:layout="@layout/fragment_country_news" />
+    <fragment
+        android:id="@+id/uaFragment"
+        android:name="com.example.worldnews.presentation.ui.country.UaFragment"
+        android:label="@string/title_ukraine"
+        tools:layout="@layout/fragment_country_news" />
+    <fragment
+        android:id="@+id/plFragment"
+        android:name="com.example.worldnews.presentation.ui.country.PlFragment"
+        android:label="@string/title_poland"
+        tools:layout="@layout/fragment_country_news" />
+    <fragment
+        android:id="@+id/articleWebView"
+        android:name="com.example.worldnews.presentation.ui.webview.ArticleWebView"
+        android:label="@string/title_source"
+        tools:layout="@layout/fragment_article_web_view">
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.worldnews.presentation.ui.detail.DetailFragment"
+        android:label="@string/title_article"
+        tools:layout="@layout/detail_fragment">
+        <argument
+            android:name="article"
+            app:argType="com.example.worldnews.domain.entity.Article" />
+        <action
+            android:id="@+id/action_detailFragment_to_articleWebView"
+            app:destination="@id/articleWebView" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouriteNewsFragment"
+        android:name="com.example.worldnews.presentation.ui.favourite.FavouriteNewsFragment"
+        android:label="@string/title_favourite"
+        tools:layout="@layout/fragment_favourite_news"/>
+    <action
+        android:id="@+id/action_global_favouriteNewsFragment"
+        app:destination="@id/favouriteNewsFragment" />
+    <fragment
+        android:id="@+id/deleteFinishedDialog"
+        android:name="com.example.worldnews.presentation.ui.dialogs.delete.DeleteFinishedDialog" />
+    <action
+        android:id="@+id/action_global_deleteFinishedDialog"
+        app:destination="@id/deleteFinishedDialog" />
+    <action
+        android:id="@+id/action_global_detailFragment"
+        app:destination="@id/detailFragment" />
+    <fragment
+        android:id="@+id/newsDeleted"
+        android:name="com.example.worldnews.presentation.ui.cleared.NewsCleared"
+        tools:layout="@layout/fragment_news_deleted" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.worldnews.presentation.ui.search.SearchFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_search" />
+    <action
+        android:id="@+id/action_global_searchFragment"
+        app:destination="@id/searchFragment" /><action android:id="@+id/action_global_newsDeleted" app:destination="@id/newsDeleted"/>
+</navigation>
