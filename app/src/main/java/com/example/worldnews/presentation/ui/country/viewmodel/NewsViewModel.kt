@@ -62,31 +62,16 @@ class NewsViewModel @Inject constructor(
         stateMutableLiveData.value = new
         if (isManualUpdate) {
             if (new == old) {
-                stateMutableLiveData.value = ViewState(
-                    isLoading = false,
-                    isError = true,
-                    errorText = "No updates"
-                )
+                stateMutableLiveData.value = ViewState(isLoading = false, isSameContent = true)
                 isManualUpdate = false
             }
         }
     }
 
     override fun onReduceState(viewAction: Action): ViewState = when (viewAction) {
-        is Action.Success -> ViewState(
-            isLoading = false,
-            news = viewAction.articles
-        )
-        is Action.Failure -> ViewState(
-            isLoading = false,
-            isError = true,
-            errorText = "Loading error"
-        )
-        is Action.Empty -> ViewState(
-            isLoading = true,
-            isError = true,
-            errorText = "Empty list"
-        )
+        is Action.Success -> ViewState(isLoading = false, news = viewAction.articles)
+        is Action.Failure -> ViewState(isLoading = false, isError = true)
+        is Action.Empty -> ViewState(isLoading = false, isEmpty = true)
     }
 
     /**
@@ -117,12 +102,13 @@ class NewsViewModel @Inject constructor(
         navManager.navigate(navDirections)
     }
 
-    //
+    // State and Action
 
     data class ViewState(
+        val isSameContent: Boolean = false,
+        val isEmpty: Boolean = false,
         val isLoading: Boolean = true,
         val isError: Boolean = false,
-        val errorText: String = "",
         val news: List<Article> = listOf()
     ) : BaseViewState
 

@@ -28,7 +28,7 @@
     <!--  Utils  -->
     <string name="no_network_connection">No network connection</string>
 
-    <!-- Titles  -->
+    <!--  Titles  -->
     <string name="title_usa">United States</string>
     <string name="title_russia">Russia</string>
     <string name="title_ukraine">Ukraine</string>
@@ -37,6 +37,12 @@
     <string name="title_article">Article</string>
     <string name="title_favourite">Favourite news</string>
     <string name="title_search">Search news</string>
+
+    <!--  Alerts  -->
+    <string name="alert_error_news">Download error</string>
+    <string name="alert_empty_news">Empty list</string>
+    <string name="alert_same_content_news">No updates</string>
+    <string name="alert_internet_connection_error">Available only saved news</string>
 
     <!--  Descriptions  -->
     <string name="description_circle">circle</string>

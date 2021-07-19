@@ -14,7 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.worldnews.R
 import com.example.worldnews.domain.entity.Article
-import com.example.worldnews.presentation.extension.setOnDebouncedClickListener
+import com.example.worldnews.presentation.extension.setClickListener
 import com.example.worldnews.presentation.extension.show
 import com.example.worldnews.presentation.extension.visible
 import com.example.worldnews.presentation.util.MapperDate
@@ -24,7 +24,7 @@ abstract class BaseNewsAdapter :
 
     private var onDebouncedClickListener: ((article: Article) -> Unit)? = null
 
-    fun setOnDebouncedClickListener(listener: (article: Article) -> Unit) {
+    fun setClickListener(listener: (article: Article) -> Unit) {
         this.onDebouncedClickListener = listener
     }
 
@@ -48,7 +48,7 @@ abstract class BaseNewsAdapter :
 
             val position = absoluteAdapterPosition
             if (position != RecyclerView.NO_POSITION)  {
-                itemView.setOnDebouncedClickListener {
+                itemView.setClickListener {
                     onDebouncedClickListener?.invoke(article)
                 }
             }

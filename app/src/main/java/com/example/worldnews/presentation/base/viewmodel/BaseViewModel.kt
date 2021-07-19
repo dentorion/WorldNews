@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.worldnews.domain.entity.Country
 import com.example.worldnews.presentation.extension.asLiveData
 
-abstract class BaseViewModel<ViewState : BaseViewState, ViewAction : BaseAction>() :
+abstract class BaseViewModel<ViewState : BaseViewState, ViewAction : BaseAction> :
     ViewModel() {
 
     val stateMutableLiveData = MutableLiveData<ViewState>()

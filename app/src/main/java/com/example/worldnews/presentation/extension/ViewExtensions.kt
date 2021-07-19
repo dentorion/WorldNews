@@ -9,7 +9,7 @@ import android.view.animation.AnimationUtils
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.example.worldnews.R
 
-fun View.setOnDebouncedClickListener(action: () -> Unit) {
+fun View.setClickListener(action: () -> Unit) {
     val actionDebouncer = ActionDebouncer(action)
 
     // This is the only place in the project where we should actually use setOnClickListener

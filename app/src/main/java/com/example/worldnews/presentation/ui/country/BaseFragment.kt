@@ -33,7 +33,7 @@ open class BaseFragment(private val currentCountry: Country) :
     private val newsAdapter: CountryNewsAdapter = CountryNewsAdapter()
 
     /**
-     * Check connection to Internet
+     * Check connection to Internet observer
      */
     @Inject
     lateinit var connectionManager: ConnectionLiveData
@@ -48,7 +48,7 @@ open class BaseFragment(private val currentCountry: Country) :
      */
     private val stateObserver = Observer<NewsViewModel.ViewState> { viewState ->
 
-        populateNews(viewState)
+        setState(viewState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,7 +60,7 @@ open class BaseFragment(private val currentCountry: Country) :
         initObservers()
 
         // Setup Debounced Clicklistener for Adapter
-        initDebouncedClickListener()
+        initClickListener()
 
         // Init RecyclerView news
         initRecyclerView()
@@ -80,31 +80,33 @@ open class BaseFragment(private val currentCountry: Country) :
         observe(newsViewModel.stateLiveData, stateObserver)
     }
 
-    private fun initDebouncedClickListener() {
-        newsAdapter.setOnDebouncedClickListener { article ->
+    private fun initClickListener() {
+        newsAdapter.setClickListener { article ->
             newsViewModel.navigateToArticleDetails(article)
         }
     }
 
     private fun initRecyclerView() {
+
+        val orientationLayoutManager = when (resources.configuration.orientation) {
+            Configuration.ORIENTATION_LANDSCAPE -> {
+                LinearLayoutManager.HORIZONTAL
+            }
+            Configuration.ORIENTATION_PORTRAIT -> {
+                LinearLayoutManager.VERTICAL
+            }
+            else -> {
+                LinearLayoutManager.HORIZONTAL
+            }
+        }
+
         with(binding) {
             listView.apply {
-                layoutManager = when (resources.configuration.orientation) {
-                    Configuration.ORIENTATION_LANDSCAPE -> {
-                        LinearLayoutManager(
-                            requireContext().applicationContext,
-                            LinearLayoutManager.HORIZONTAL,
-                            false
-                        )
-                    }
-                    else -> {
-                        LinearLayoutManager(
-                            requireContext().applicationContext,
-                            LinearLayoutManager.VERTICAL,
-                            false
-                        )
-                    }
-                }
+                layoutManager = LinearLayoutManager(
+                    requireContext().applicationContext,
+                    orientationLayoutManager,
+                    false
+                )
                 adapter = newsAdapter.apply {
                     setHasFixedSize(true)
                 }
@@ -125,9 +127,14 @@ open class BaseFragment(private val currentCountry: Country) :
         }
     }
 
+    //
+
     private fun loadData(isForced: Boolean = false) {
         if (!isConnected) {
-            simpleShortSnackBar(requireView(), "Available only saved news")
+            simpleShortSnackBar(
+                requireView(),
+                requireContext().getString(R.string.alert_internet_connection_error)
+            )
         }
         newsViewModel.loadData(currentCountry, isForced)
     }
@@ -142,10 +149,25 @@ open class BaseFragment(private val currentCountry: Country) :
         }
     }
 
-    private fun populateNews(viewState: NewsViewModel.ViewState) {
+    private fun setState(viewState: NewsViewModel.ViewState) {
         binding.progressBar.visible = viewState.isLoading
         if (viewState.isError) {
-            simpleShortSnackBar(requireView(), viewState.errorText)
+            simpleShortSnackBar(
+                requireView(),
+                requireContext().getString(R.string.alert_error_news)
+            )
+        }
+        if (viewState.isEmpty) {
+            simpleShortSnackBar(
+                requireView(),
+                requireContext().getString(R.string.alert_empty_news)
+            )
+        }
+        if (viewState.isSameContent) {
+            simpleShortSnackBar(
+                requireView(),
+                requireContext().getString(R.string.alert_same_content_news)
+            )
         }
         if (viewState.news.isNotEmpty()) {
             newsAdapter.submitList(viewState.news)

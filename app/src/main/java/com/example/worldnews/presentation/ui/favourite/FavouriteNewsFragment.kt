@@ -59,7 +59,7 @@ class FavouriteNewsFragment :
     }
 
     private fun initDebouncedClickListener() {
-        favouriteNewsAdapter.setOnDebouncedClickListener { article ->
+        favouriteNewsAdapter.setClickListener { article ->
             favouriteViewModel.navigateToArticleDetails(article)
         }
     }

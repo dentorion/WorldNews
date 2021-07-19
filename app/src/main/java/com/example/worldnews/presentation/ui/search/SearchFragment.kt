@@ -2,6 +2,9 @@ package com.example.worldnews.presentation.ui.search
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -38,6 +41,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setHasOptionsMenu(true)
 
         // Init RecyclerView news
         initRecycler()
@@ -79,7 +84,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun initDebouncedClickListener() {
-        searchAdapter.setOnDebouncedClickListener { article ->
+        searchAdapter.setClickListener { article ->
             searchViewModel.navigateToArticleDetails(article)
         }
     }
@@ -126,6 +131,22 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun showWaitIcon(mode: Boolean) {
         binding.progressBar.visible = mode
+    }
+
+    // Menu bar
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.bar_menu_search, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_favourite -> {
+                searchViewModel.navigateToFavourite()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     // Destroy

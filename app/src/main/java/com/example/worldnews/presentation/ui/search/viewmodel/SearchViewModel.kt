@@ -40,15 +40,20 @@ class SearchViewModel @Inject constructor(
     // Navigation
 
     fun navigateToArticleDetails(article: Article) {
-        saveArticle(article)
+        saveArticleFromSearch(article)
         val navDirections = NavgraphDirections.actionGlobalDetailFragment(article)
         navManager.navigate(navDirections)
     }
 
     // Save article from search list that was opened
 
-    private fun saveArticle(article: Article) = viewModelScope.launch {
+    private fun saveArticleFromSearch(article: Article) = viewModelScope.launch {
         searchNewsUseCase.saveSearchedAndOpenedArticle(article)
+    }
+
+    fun navigateToFavourite() {
+        val navDirections = NavgraphDirections.actionGlobalFavouriteNewsFragment()
+        navManager.navigate(navDirections)
     }
 
     sealed class SearchEvents {
