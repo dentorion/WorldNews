@@ -3,12 +3,9 @@ package com.example.worldnews.presentation.extension
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.worldnews.R
 import com.example.worldnews.presentation.activity.MainActivity
-import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * When trying to navigate to a destination that is not included in the current navigation graph

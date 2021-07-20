@@ -1,7 +1,7 @@
 package com.example.worldnews.domain.entity
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Article(

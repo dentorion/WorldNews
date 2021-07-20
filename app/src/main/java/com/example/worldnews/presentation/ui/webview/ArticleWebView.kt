@@ -11,7 +11,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.worldnews.R
 import com.example.worldnews.databinding.FragmentArticleWebViewBinding
 import com.example.worldnews.presentation.extension.visible
-import kotlinx.android.synthetic.main.fragment_article_web_view.*
 
 class ArticleWebView : Fragment(R.layout.fragment_article_web_view) {
 
@@ -27,15 +26,13 @@ class ArticleWebView : Fragment(R.layout.fragment_article_web_view) {
     private fun openWebView(url: String) {
         binding.progressBar.max = 100
 
-        val webView: WebView = binding.webview
-
-        webView.apply {
+        binding.webview.apply {
             webViewClient = WebViewClient()
             settings.javaScriptEnabled = true
             loadUrl(url)
         }
 
-        webView.webViewClient = object : WebViewClient() {
+        binding.webview.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 binding.progressBar.visible = false
@@ -45,7 +42,7 @@ class ArticleWebView : Fragment(R.layout.fragment_article_web_view) {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        webview.apply {
+        binding.webview.apply {
             removeAllViews()
             clearCache(true)
             destroy()
