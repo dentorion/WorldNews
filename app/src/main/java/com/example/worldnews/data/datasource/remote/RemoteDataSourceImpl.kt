@@ -15,5 +15,5 @@ class RemoteDataSourceImpl @Inject constructor(
         apiService.getNewsByCountry(country = country.countryName).articles
 
     override suspend fun getSearchNews(query: String): List<ArticleJson> =
-            apiService.getSearchedNews(query = query).articles
+        apiService.getSearchedNews(query = query).articles
 }

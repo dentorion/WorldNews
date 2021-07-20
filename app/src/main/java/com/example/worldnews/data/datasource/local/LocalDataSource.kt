@@ -1,7 +1,6 @@
 package com.example.worldnews.data.datasource.local
 
 import com.example.db.entity.ArticleRoom
-import com.example.worldnews.domain.entity.Article
 import com.example.worldnews.domain.entity.Country
 import kotlinx.coroutines.flow.Flow
 
