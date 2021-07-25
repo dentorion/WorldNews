@@ -102,10 +102,10 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                         }
                     }
                     is SearchViewModel.SearchEvents.Empty -> {
-                        simpleShortSnackBar(requireView(), "No results")
+                        simpleShortSnackBar(requireView(), requireContext().getString(R.string.search_no_results))
                     }
                     is SearchViewModel.SearchEvents.Error -> {
-                        simpleShortSnackBar(requireView(), "Error while loading")
+                        simpleShortSnackBar(requireView(), requireContext().getString(R.string.search_error_on_loading))
                     }
                 }
             }.launchIn(lifecycleScope)

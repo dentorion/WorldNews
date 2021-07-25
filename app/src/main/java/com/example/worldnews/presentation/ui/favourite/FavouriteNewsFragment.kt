@@ -33,10 +33,10 @@ class FavouriteNewsFragment :
                 favouriteNewsAdapter.submitList(viewState.news)
             }
             if (viewState.deleted) {
-                simpleShortSnackBar(requireView(), "Not more favourite")
+                simpleShortSnackBar(requireView(), requireContext().getString(R.string.favourite_not_in_list_no_more))
             }
             if (viewState.empty) {
-                simpleShortSnackBar(requireView(), "Empty list")
+                simpleShortSnackBar(requireView(), requireContext().getString(R.string.favourite_empty_list))
                 setIconTrash(viewState.empty)
             }
             progressBarFavouriteNews.visible = viewState.isLoading

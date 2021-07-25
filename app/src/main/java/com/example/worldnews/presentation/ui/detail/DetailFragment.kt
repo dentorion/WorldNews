@@ -75,7 +75,6 @@ class DetailFragment : Fragment(R.layout.detail_fragment) {
      * Click listeners: favourite + open web page + share
      * Set main image
      */
-
     private fun initContent(article: ViewState) {
         with(binding) {
             detailTitle.text = article.title
@@ -112,7 +111,7 @@ class DetailFragment : Fragment(R.layout.detail_fragment) {
                 intent.action = Intent.ACTION_SEND
                 intent.putExtra(Intent.EXTRA_TEXT, article.url)
                 intent.type = "text/plain"
-                startActivity(Intent.createChooser(intent, "Share To:"))
+                startActivity(Intent.createChooser(intent, requireContext().getString(R.string.detail_share_to)))
             }
         }
     }

@@ -1,16 +1,16 @@
 <resources>
-    <string name="app_name">World News</string>
+    <string name="app_name" translatable="false">World News</string>
 
     <!--  Bottom menu  -->
-    <string name="us">USA</string>
-    <string name="pl">POLAND</string>
-    <string name="ua">UKRAINE</string>
-    <string name="ru">RUSSIA</string>
+    <string name="us" translatable="false">USA</string>
+    <string name="pl" translatable="false">POLAND</string>
+    <string name="ua" translatable="false">UKRAINE</string>
+    <string name="ru" translatable="false">RUSSIA</string>
 
     <!--  Clear news confirmation  -->
-    <string name="dialog_delete_no">ДА</string>
-    <string name="dialog_delete_yes">НЕТ</string>
-    <string name="dialog_delete_message">Очистить новости?</string>
+    <string name="dialog_delete_no">YES</string>
+    <string name="dialog_delete_yes">NO</string>
+    <string name="dialog_delete_message">Clear news?</string>
 
     <!--  Clear news result  -->
     <string name="news_deleted">NEWS DELETED</string>
@@ -18,12 +18,17 @@
 
     <!-- Detail Page  -->
     <string name="detail_read_article_btn">READ article</string>
+    <string name="detail_share_to">Share To:</string>
 
-    <!--  Favourite news  -->
-    <string name="swipe_to_delete_news_from_favourite">SWIPE TO DELETE NEWS FROM FAVOURITE</string>
+    <!--  Favourites Page  -->
+    <string name="favourite_swipe_to_delete_news_from_favourite">SWIPE TO DELETE NEWS FROM FAVOURITE</string>
+    <string name="favourite_not_in_list_no_more">Not more favourite</string>
+    <string name="favourite_empty_list">Empty list</string>
 
-    <!--  Search  -->
-    <string name="type_your_query">type your query</string>
+    <!--  Search Page  -->
+    <string name="search_type_your_query">type your query</string>
+    <string name="search_no_results">No results</string>
+    <string name="search_error_on_loading">Error while loading</string>
 
     <!--  Utils  -->
     <string name="no_network_connection">No network connection</string>
@@ -45,13 +50,13 @@
     <string name="alert_internet_connection_error">Available only saved news</string>
 
     <!--  Descriptions  -->
-    <string name="description_circle">circle</string>
-    <string name="description_basket">basket</string>
-    <string name="description_image_article">image</string>
-    <string name="description_red_line">line</string>
-    <string name="description_favourite_btn">favourite</string>
-    <string name="description_share">share</string>
-    <string name="description_author">author</string>
-    <string name="description_eye">eye</string>
+    <string name="description_circle" translatable="false">circle</string>
+    <string name="description_basket" translatable="false">basket</string>
+    <string name="description_image_article" translatable="false">image</string>
+    <string name="description_red_line" translatable="false">line</string>
+    <string name="description_favourite_btn" translatable="false">favourite</string>
+    <string name="description_share" translatable="false">share</string>
+    <string name="description_author" translatable="false">author</string>
+    <string name="description_eye" translatable="false">eye</string>
 
 </resources>

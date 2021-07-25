@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_delete_no">TAK</string>
+    <string name="dialog_delete_yes">HI</string>
+    <string name="dialog_delete_message">Очистити новини?</string>
+    <string name="choose_country_to_start">Виберіть країну</string>
+    <string name="detail_read_article_btn">ЧИТАТИ статтю</string>
+    <string name="detail_share_to">Поділитися:</string>
+    <string name="favourite_swipe_to_delete_news_from_favourite">Проведіть для видалення</string>
+    <string name="favourite_not_in_list_no_more">Більш не в обраному</string>
+    <string name="favourite_empty_list">Список порожній</string>
+    <string name="news_deleted">Новини видалені</string>
+    <string name="search_type_your_query">Введіть запит</string>
+    <string name="search_no_results">Немає результатів</string>
+    <string name="search_error_on_loading">Помилка під час завантаження</string>
+    <string name="no_network_connection">Немає підключення до Інтернету</string>
+    <string name="title_usa">США</string>
+    <string name="title_russia">Росія</string>
+    <string name="title_ukraine">Україна</string>
+    <string name="title_poland">Польща</string>
+    <string name="title_source">Джерело</string>
+    <string name="title_article">Стаття</string>
+    <string name="title_favourite">Вибрані новини</string>
+    <string name="title_search">Пошук новин</string>
+    <string name="alert_error_news">Помилка завантаження</string>
+    <string name="alert_empty_news">Список порожній</string>
+    <string name="alert_same_content_news">Оновлення відсутні</string>
+    <string name="alert_internet_connection_error">Доступні тільки завантажені новини</string>
+</resources>

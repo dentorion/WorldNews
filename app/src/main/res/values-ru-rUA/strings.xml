@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_delete_no">ДА</string>
+    <string name="dialog_delete_yes">НЕТ</string>
+    <string name="dialog_delete_message">Очистить новости?</string>
+    <string name="choose_country_to_start">Выберите страну</string>
+    <string name="detail_read_article_btn">ЧИТАТЬ статью</string>
+    <string name="detail_share_to">Поделиться:</string>
+    <string name="favourite_swipe_to_delete_news_from_favourite">Проведите для удаления</string>
+    <string name="favourite_not_in_list_no_more">Более не в избранном</string>
+    <string name="favourite_empty_list">Список пуст</string>
+    <string name="news_deleted">Новости удалены</string>
+    <string name="search_type_your_query">Введите запрос</string>
+    <string name="search_no_results">Нет результатов</string>
+    <string name="search_error_on_loading">Ошибка во время загрузки</string>
+    <string name="no_network_connection">Отсутствует Интернет соединение</string>
+    <string name="title_usa">США</string>
+    <string name="title_russia">Россия</string>
+    <string name="title_ukraine">Украина</string>
+    <string name="title_poland">Польша</string>
+    <string name="title_source">Источник</string>
+    <string name="title_article">Статья</string>
+    <string name="title_favourite">Избранные новости</string>
+    <string name="alert_empty_news">Список пуст</string>
+    <string name="alert_same_content_news">Обновления отсутствуют</string>
+    <string name="title_search">Поиск новостей</string>
+    <string name="alert_error_news">Ошибка загрузки</string>
+    <string name="alert_internet_connection_error">Доступны только загруженные новости</string>
+</resources>

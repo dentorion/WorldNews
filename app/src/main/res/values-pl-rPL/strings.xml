@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_delete_no">TAK</string>
+    <string name="dialog_delete_yes">NIE</string>
+    <string name="dialog_delete_message">Usunąć wiadomości?</string>
+    <string name="choose_country_to_start">wybierz kraj, aby rozpocząć</string>
+    <string name="detail_read_article_btn">CZYTAĆ artykuł</string>
+    <string name="detail_share_to">Podziel Się:</string>
+    <string name="favourite_swipe_to_delete_news_from_favourite">PRZESUŃ, ABY USUNĄĆ WIADOMOŚĆ Z ULUBIONYCH</string>
+    <string name="favourite_not_in_list_no_more">Usunięte</string>
+    <string name="favourite_empty_list">Pusta lista</string>
+    <string name="news_deleted">WIADOMOŚĆI usunięte</string>
+    <string name="search_type_your_query">Wprowadź zapyt</string>
+    <string name="search_no_results">Brak wyników</string>
+    <string name="search_error_on_loading">Błąd podczas ładowania</string>
+    <string name="no_network_connection">Brak połączenia sieciowego</string>
+    <string name="title_usa">Stany Zjednoczone</string>
+    <string name="title_russia">Rosja</string>
+    <string name="title_ukraine">Ukraina</string>
+    <string name="title_poland">Polska</string>
+    <string name="title_source">Źródło</string>
+    <string name="title_article">Artykuł</string>
+    <string name="title_favourite">Ulubione wiadomości</string>
+    <string name="title_search">Szukaj wiadomości</string>
+    <string name="alert_error_news">Błąd pobierania</string>
+    <string name="alert_empty_news">Pusta lista</string>
+    <string name="alert_same_content_news">Brak aktualizacji</string>
+    <string name="alert_internet_connection_error">Dostępne tylko zapisane wiadomości</string>
+</resources>

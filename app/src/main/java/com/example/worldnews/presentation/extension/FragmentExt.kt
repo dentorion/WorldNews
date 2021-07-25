@@ -40,11 +40,6 @@ fun Fragment.navigateSafe(directions: NavDirections, navOptions: NavOptions? = n
  */
 fun Fragment.canNavigate(): Boolean {
 
-    // при использовании FragmentContainerView нужно найти NavController, используя findFragmentById(),
-    // а не используя findNavController(), когда находитесь в onCreate() :
-    // val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-    // val navController = navHostFragment.navController
-
     val navController = findNavController()
     val destinationIdInNavController = navController.currentDestination?.id
 
