@@ -15,7 +15,7 @@ class DeleteNewsUseCase @Inject constructor(
         return try {
             repository.deleteNewsByCountry(country)
         } catch (e: IOException) {
-
+            throw Error("Error on all news deleting")
         }
     }
 }

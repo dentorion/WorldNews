@@ -14,7 +14,7 @@ class SetArticleWatchedUseCase @Inject constructor(
         try {
             repository.setArticleShown(url)
         } catch (e: IOException) {
-
+            throw Error("Error on setting news as watched")
         }
     }
 }

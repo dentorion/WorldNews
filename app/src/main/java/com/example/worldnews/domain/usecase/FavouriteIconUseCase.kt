@@ -18,7 +18,7 @@ class FavouriteIconUseCase @Inject constructor(
         try {
             repository.changeFavouriteArticle(url = url)
         } catch (e: IOException) {
-
+            throw Error("Error on setting news as favourite")
         }
     }
 }

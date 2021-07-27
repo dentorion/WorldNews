@@ -19,7 +19,7 @@ import com.example.worldnews.presentation.extension.visible
 import com.example.worldnews.presentation.ui.country.adapter.SearchNewsAdapter
 import com.example.worldnews.presentation.ui.search.viewmodel.SearchViewModel
 import com.example.worldnews.presentation.util.simpleShortSnackBar
-import com.example.worldnews.presentation.util.textChanges
+import com.example.worldnews.presentation.extension.textChanges
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview

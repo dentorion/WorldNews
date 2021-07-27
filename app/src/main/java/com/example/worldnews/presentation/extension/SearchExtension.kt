@@ -1,4 +1,4 @@
-package com.example.worldnews.presentation.util
+package com.example.worldnews.presentation.extension
 
 import android.text.Editable
 import android.text.TextWatcher
