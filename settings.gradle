@@ -6,6 +6,6 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "World News"
-include ':app'
-include ':network'
-include ':db'
+include (":app")
+include (":network")
+include (":db")

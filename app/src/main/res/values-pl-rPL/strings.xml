@@ -22,8 +22,10 @@
     <string name="title_article">Artykuł</string>
     <string name="title_favourite">Ulubione wiadomości</string>
     <string name="title_search">Szukaj wiadomości</string>
-    <string name="alert_error_news">Błąd pobierania</string>
+    <string name="alert_error_news">Błąd pobierania %1$s</string>
     <string name="alert_empty_news">Pusta lista</string>
     <string name="alert_same_content_news">Brak aktualizacji</string>
     <string name="alert_internet_connection_error">Dostępne tylko zapisane wiadomości</string>
+    <string name="unfortunately_error_has_happened">Unfortunately, error has happened!</string>
+    <string name="try_again">TRY AGAIN</string>
 </resources>

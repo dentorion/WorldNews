@@ -26,4 +26,6 @@
     <string name="alert_empty_news">Список порожній</string>
     <string name="alert_same_content_news">Оновлення відсутні</string>
     <string name="alert_internet_connection_error">Доступні тільки завантажені новини</string>
+    <string name="unfortunately_error_has_happened">Unfortunately, error has happened!</string>
+    <string name="try_again">TRY AGAIN</string>
 </resources>

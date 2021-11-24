@@ -44,7 +44,7 @@
     <string name="title_search">Search news</string>
 
     <!--  Alerts  -->
-    <string name="alert_error_news">Download error</string>
+    <string name="alert_error_news">Download error %1$s</string>
     <string name="alert_empty_news">Empty list</string>
     <string name="alert_same_content_news">No updates</string>
     <string name="alert_internet_connection_error">Available only saved news</string>
@@ -58,5 +58,7 @@
     <string name="description_share" translatable="false">share</string>
     <string name="description_author" translatable="false">author</string>
     <string name="description_eye" translatable="false">eye</string>
+    <string name="unfortunately_error_has_happened">Unfortunately, error has happened!</string>
+    <string name="try_again">TRY AGAIN</string>
 
 </resources>

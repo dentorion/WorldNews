@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shareInterpolator="@bool/leak_canary_add_launcher_icon">
+<set xmlns:android="http://schemas.android.com/apk/res/android">
 
     <alpha
         android:duration="750"

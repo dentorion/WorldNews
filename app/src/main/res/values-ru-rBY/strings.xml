@@ -22,8 +22,10 @@
     <string name="title_article">Статья</string>
     <string name="title_favourite">Избранные новости</string>
     <string name="title_search">Поиск новостей</string>
-    <string name="alert_error_news">Ошибка загрузки</string>
+    <string name="alert_error_news">Ошибка загрузки %1$s</string>
     <string name="alert_empty_news">Список пуст</string>
     <string name="alert_same_content_news">Обновления отсутствуют</string>
     <string name="alert_internet_connection_error">Доступны только загруженные новости</string>
+    <string name="unfortunately_error_has_happened">Unfortunately, error has happened!</string>
+    <string name="try_again">TRY AGAIN</string>
 </resources>
