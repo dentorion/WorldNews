@@ -46,8 +46,8 @@
     <!--  Alerts  -->
     <string name="alert_error_news">Download error %1$s</string>
     <string name="alert_empty_news">Empty list</string>
-    <string name="alert_same_content_news">No updates</string>
-    <string name="alert_internet_connection_error">Available only saved news</string>
+    <string name="alert_forced_updated_news">Updating is completed</string>
+    <string name="alert_no_updates">No updates</string>
 
     <!--  Descriptions  -->
     <string name="description_circle" translatable="false">circle</string>
@@ -60,5 +60,16 @@
     <string name="description_eye" translatable="false">eye</string>
     <string name="unfortunately_error_has_happened">Unfortunately, error has happened!</string>
     <string name="try_again">TRY AGAIN</string>
+
+    <!-- Menu Items -->
+    <string name="menu_item_search_news">Search news</string>
+    <string name="menu_item_favourite_news">Favourite news</string>
+    <string name="menu_item_topics">TOPICS</string>
+    <string name="menu_item_all_topics">All topics</string>
+    <string name="menu_item_general_topics">General topics</string>
+    <string name="menu_item_health_topics">Health topics</string>
+    <string name="menu_item_sports_topics">Sports topics</string>
+    <string name="menu_item_forced_download">Forced download</string>
+    <string name="menu_item_clear_old_news">Clear old news</string>
 
 </resources>

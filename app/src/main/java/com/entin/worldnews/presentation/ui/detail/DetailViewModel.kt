@@ -6,13 +6,14 @@ import com.entin.worldnews.NavgraphDirections
 import com.entin.worldnews.domain.model.Article
 import com.entin.worldnews.domain.model.PendingResult
 import com.entin.worldnews.domain.model.SuccessResult
-import com.entin.worldnews.domain.usecase.FavouriteIconUseCase
+import com.entin.worldnews.domain.usecase.IsArticleFavouriteUseCase
+import com.entin.worldnews.domain.usecase.ChangeFavouriteUseCase
 import com.entin.worldnews.domain.usecase.SetArticleWatchedUseCase
 import com.entin.worldnews.presentation.base.viewmodel.BaseViewModel
 import com.entin.worldnews.presentation.base.viewmodel.LiveResult
 import com.entin.worldnews.presentation.base.viewmodel.MutableLiveResult
 import com.entin.worldnews.presentation.navigation.NavManager
-import com.entin.worldnews.presentation.util.MapperDate
+import com.entin.worldnews.presentation.util.date.MapperDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -33,7 +34,8 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(
     private val state: SavedStateHandle,
     private val setArticleWatchedUseCase: SetArticleWatchedUseCase,
-    private val favouriteUseCase: FavouriteIconUseCase,
+    private val changeFavouriteClickUseCase: ChangeFavouriteUseCase,
+    private val isArticleFavouriteUseCase: IsArticleFavouriteUseCase,
     private val navManager: NavManager
 ) : BaseViewModel() {
 
@@ -80,10 +82,10 @@ class DetailViewModel @Inject constructor(
         )
 
         // Set Article as watched
-        setArticleWatchedUseCase.execute(url = state.get<String>("url") ?: article?.url ?: "")
+        setArticleWatchedUseCase.invoke(url = state.get<String>("url") ?: article?.url ?: "")
 
         // Get favourite status of Article
-        favouriteUseCase.get(url = state.get<String>("url") ?: article?.url ?: "")
+        isArticleFavouriteUseCase(url = state.get<String>("url") ?: article?.url ?: "")
             .flowOn(Dispatchers.IO).collect {
                 _favouriteChannel.send(it)
             }
@@ -93,7 +95,7 @@ class DetailViewModel @Inject constructor(
      * Favourite icon button was clicked by user
      */
     fun favouriteBtnClick(url: String) = viewModelScope.launch {
-        favouriteUseCase.set(url = url)
+        changeFavouriteClickUseCase(url = url)
     }
 
     /**

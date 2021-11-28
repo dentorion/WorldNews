@@ -2,21 +2,23 @@ package com.entin.worldnews.presentation.ui.search
 
 import androidx.lifecycle.viewModelScope
 import com.entin.worldnews.NavgraphDirections
-import com.entin.worldnews.domain.model.Article
-import com.entin.worldnews.domain.model.PendingResult
-import com.entin.worldnews.domain.model.SuccessResult
-import com.entin.worldnews.domain.usecase.SearchNewsUseCase
+import com.entin.worldnews.domain.model.*
+import com.entin.worldnews.domain.usecase.SaveSearchedAndOpenedArticleUseCase
+import com.entin.worldnews.domain.usecase.SearchNewsByQueryUseCase
 import com.entin.worldnews.presentation.base.viewmodel.BaseViewModel
 import com.entin.worldnews.presentation.base.viewmodel.LiveResult
 import com.entin.worldnews.presentation.base.viewmodel.MutableLiveResult
 import com.entin.worldnews.presentation.navigation.NavManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val searchNewsUseCase: SearchNewsUseCase,
+    private val searchNewsByQueryUseCase: SearchNewsByQueryUseCase,
+    private val saveSearchedAndOpenedArticleUseCase: SaveSearchedAndOpenedArticleUseCase,
     private val navManager: NavManager
 ) : BaseViewModel() {
 
@@ -27,19 +29,30 @@ class SearchViewModel @Inject constructor(
     private val _stateScreen = MutableLiveResult(SuccessResult(ViewStateSearch()))
     val uiStateSearch: LiveResult<ViewStateSearch> = _stateScreen
 
-    fun search(searchInput: String) = viewModelScope.launch {
-        _stateScreen.postValue(PendingResult())
+    /**
+     * Job of getting news
+     */
+    private var myJob: Job? = null
 
-        searchNewsUseCase.execute(search = searchInput).also { result ->
-            when (result) {
-                SearchNewsUseCase.UseCaseResult.Empty -> {
-                    _stateScreen.postValue(SuccessResult(ViewStateSearch(empty = true)))
-                }
-                is SearchNewsUseCase.UseCaseResult.Error -> {
-                    _stateScreen.postValue(SuccessResult(ViewStateSearch(error = true)))
-                }
-                is SearchNewsUseCase.UseCaseResult.Success -> {
-                    _stateScreen.postValue(SuccessResult(ViewStateSearch(result = result.data)))
+    /**
+     * Search news function
+     */
+    fun search(searchInput: String) {
+        myJob?.cancel()
+        myJob = viewModelScope.launch {
+            _stateScreen.postValue(PendingResult())
+
+            searchNewsByQueryUseCase(search = searchInput).collect { result ->
+                when (result) {
+                    UseCaseResult.Empty -> {
+                        _stateScreen.postValue(SuccessResult(ViewStateSearch(empty = true)))
+                    }
+                    is UseCaseResult.Error -> {
+                        _stateScreen.postValue(ErrorResult(result.e.message!!))
+                    }
+                    is UseCaseResult.Success -> {
+                        _stateScreen.postValue(SuccessResult(ViewStateSearch(result = result.data)))
+                    }
                 }
             }
         }
@@ -63,7 +76,7 @@ class SearchViewModel @Inject constructor(
      * Save article from search result that was opened
      */
     private fun saveArticleFromSearch(article: Article) = viewModelScope.launch {
-        searchNewsUseCase.saveSearchedAndOpenedArticle(article)
+        saveSearchedAndOpenedArticleUseCase(article)
     }
 }
 

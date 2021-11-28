@@ -3,8 +3,10 @@ package com.entin.worldnews.presentation.ui.detail
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.view.*
-import androidx.core.view.children
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
@@ -18,7 +20,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.entin.worldnews.R
 import com.entin.worldnews.databinding.DetailFragmentBinding
-import com.entin.worldnews.domain.model.WorldNewsResult
+import com.entin.worldnews.domain.model.ViewModelResult
 import com.entin.worldnews.presentation.base.fragment.BaseFragment
 import com.entin.worldnews.presentation.base.fragment.extension.renderStateExtension
 import com.entin.worldnews.presentation.extension.observe
@@ -43,7 +45,7 @@ class DetailFragment : BaseFragment(R.layout.detail_fragment) {
     /**
      * State observer
      */
-    private val stateObserver = Observer<WorldNewsResult<DetailViewState>> { result ->
+    private val stateObserver = Observer<ViewModelResult<DetailViewState>> { result ->
         setState(result)
     }
 
@@ -71,19 +73,23 @@ class DetailFragment : BaseFragment(R.layout.detail_fragment) {
      * Each WorldNewsResult<DetailViewState> goes to extension function
      * and then to the BaseFragment, where it renders all views
      */
-    private fun setState(uiState: WorldNewsResult<DetailViewState>) {
-        binding.root.children
-            .filter { it.id != R.id.no_internet_part } // Don't touch internet connection label
-            .forEach { it.visibility = View.INVISIBLE } // Hide all elements of viewGroup
+    private fun setState(uiState: ViewModelResult<DetailViewState>) {
         renderStateExtension(
             root = binding.root,
             uiState = uiState,
             onSuccess = { viewState ->
-                initContent(viewState)
-                initClickListeners(viewState)
-                initImage(viewState)
+                onSuccess(viewState)
             },
         )
+    }
+
+    /**
+     * What should be done onSuccess received
+     */
+    private fun onSuccess(viewState: DetailViewState) {
+        initContent(viewState)
+        initClickListeners(viewState)
+        initImage(viewState)
     }
 
     /**

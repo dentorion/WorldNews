@@ -1,178 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@color/colorPrimary"
+    android:background="@color/colorPrimary"
+    android:fillViewport="true"
+    android:scrollbars="none"
     tools:context=".presentation.ui.detail.DetailFragment">
 
-        <ImageView
-            android:id="@+id/detail_img"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="203dp"
-            android:contentDescription="@string/description_image_article"
-            android:src="@drawable/ic_launcher_foreground"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/detail_bar"
-            android:layout_width="0dp"
-            android:layout_height="25dp"
-            android:contentDescription="@string/description_red_line"
-            android:src="@drawable/detail_bar_source"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detail_img" />
-
-        <TextView
-            android:id="@+id/author"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:maxLength="52"
-            android:maxLines="1"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/author_label_img"
-            app:layout_constraintStart_toEndOf="@+id/author_label_img"
-            app:layout_constraintTop_toTopOf="@+id/author_label_img" />
+            android:paddingBottom="24dp">
 
-        <TextView
-            android:id="@+id/detail_publish_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/rectangle_light_background"
-            android:paddingStart="8dp"
-            android:paddingTop="2dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="2dp"
-            android:textColor="@color/white"
-            android:textSize="11sp"
-            app:layout_constraintBottom_toBottomOf="@+id/detail_publishedAt"
-            app:layout_constraintStart_toEndOf="@+id/detail_publishedAt"
-            app:layout_constraintTop_toTopOf="@+id/detail_publishedAt" />
+                <ImageView
+                    android:id="@+id/detail_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="203dp"
+                    android:contentDescription="@string/description_image_article"
+                    android:src="@drawable/ic_launcher_foreground"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/detail_publishedAt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/rectangle_light_background"
-            android:paddingStart="8dp"
-            android:paddingTop="2dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="2dp"
-            android:textColor="@color/white"
-            android:textSize="11sp"
-            app:layout_constraintStart_toStartOf="@+id/detail_title"
-            app:layout_constraintTop_toBottomOf="@+id/detail_title" />
+                <ImageView
+                    android:id="@+id/detail_bar"
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:contentDescription="@string/description_red_line"
+                    android:src="@drawable/detail_bar_source"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_img" />
 
-        <TextView
-            android:id="@+id/detail_content"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text=""
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/detail_publishedAt" />
+                <TextView
+                    android:id="@+id/author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:maxLength="52"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/author_label_img"
+                    app:layout_constraintStart_toEndOf="@+id/author_label_img"
+                    app:layout_constraintTop_toTopOf="@+id/author_label_img" />
 
-        <TextView
-            android:id="@+id/detail_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:letterSpacing="0.08"
-            android:text=""
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/detail_bar" />
+                <TextView
+                    android:id="@+id/detail_publish_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/rectangle_coral_background"
+                    android:paddingStart="8dp"
+                    android:paddingTop="2dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="2dp"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/detail_publishedAt"
+                    app:layout_constraintStart_toEndOf="@+id/detail_publishedAt"
+                    app:layout_constraintTop_toTopOf="@+id/detail_publishedAt" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="30dp" />
+                <TextView
+                    android:id="@+id/detail_publishedAt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/rectangle_coral_background"
+                    android:paddingStart="8dp"
+                    android:paddingTop="2dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="2dp"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toStartOf="@+id/detail_title"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_title" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="362dp" />
+                <TextView
+                    android:id="@+id/detail_content"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/guideline"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_publishedAt" />
 
-        <Button
-            android:id="@+id/open_article_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/rectangle_black_background"
-            android:fontFamily="sans-serif-medium"
-            android:letterSpacing="0.20"
-            android:text="@string/detail_read_article_btn"
-            android:textColor="@color/textColor"
-            app:backgroundTint="@null"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/detail_content" />
+                <TextView
+                    android:id="@+id/detail_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:letterSpacing="0.08"
+                    android:text=""
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/guideline"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_bar" />
 
-        <ImageView
-            android:id="@+id/favourite_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:background="@drawable/rectangle_black_background"
-            android:contentDescription="@string/description_favourite_btn"
-            android:paddingStart="16dp"
-            android:paddingTop="12dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="11dp"
-            android:src="@drawable/favourite_icon_stroke_light"
-            app:layout_constraintBottom_toBottomOf="@+id/open_article_btn"
-            app:layout_constraintStart_toEndOf="@+id/open_article_btn"
-            app:layout_constraintTop_toTopOf="@+id/open_article_btn" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="30dp" />
 
-        <ImageView
-            android:id="@+id/share_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:background="@drawable/rectangle_black_background"
-            android:contentDescription="@string/description_share"
-            android:paddingStart="16dp"
-            android:paddingTop="12dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="11dp"
-            android:src="@drawable/share_icon_light"
-            app:layout_constraintBottom_toBottomOf="@+id/favourite_btn"
-            app:layout_constraintStart_toEndOf="@+id/favourite_btn"
-            app:layout_constraintTop_toTopOf="@+id/favourite_btn"
-            app:layout_constraintVertical_bias="0.0" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="362dp" />
 
-        <ImageView
-            android:id="@+id/author_label_img"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginStart="4dp"
-            android:contentDescription="@string/description_author"
-            android:src="@drawable/icon_article"
-            app:layout_constraintBottom_toBottomOf="@+id/detail_bar"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/detail_img" />
+                <Button
+                    android:id="@+id/open_article_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/rectangle_black_background"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.20"
+                    android:text="@string/detail_read_article_btn"
+                    android:textColor="@color/textColor"
+                    app:backgroundTint="@null"
+                    app:layout_constraintStart_toStartOf="@+id/guideline"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_content" />
 
-        <include layout="@layout/part_loading" />
+                <ImageView
+                    android:id="@+id/favourite_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/rectangle_black_background"
+                    android:contentDescription="@string/description_favourite_btn"
+                    android:paddingStart="16dp"
+                    android:paddingTop="12dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="11dp"
+                    android:src="@drawable/favourite_icon_stroke_light"
+                    app:layout_constraintBottom_toBottomOf="@+id/open_article_btn"
+                    app:layout_constraintStart_toEndOf="@+id/open_article_btn"
+                    app:layout_constraintTop_toTopOf="@+id/open_article_btn" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/share_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/rectangle_black_background"
+                    android:contentDescription="@string/description_share"
+                    android:paddingStart="16dp"
+                    android:paddingTop="12dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="11dp"
+                    android:src="@drawable/share_icon_light"
+                    app:layout_constraintBottom_toBottomOf="@+id/favourite_btn"
+                    app:layout_constraintStart_toEndOf="@+id/favourite_btn"
+                    app:layout_constraintTop_toTopOf="@+id/favourite_btn"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <ImageView
+                    android:id="@+id/author_label_img"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="4dp"
+                    android:contentDescription="@string/description_author"
+                    android:src="@drawable/icon_article"
+                    app:layout_constraintBottom_toBottomOf="@+id/detail_bar"
+                    app:layout_constraintStart_toStartOf="@+id/guideline"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_img" />
+
+                <include layout="@layout/part_loading" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

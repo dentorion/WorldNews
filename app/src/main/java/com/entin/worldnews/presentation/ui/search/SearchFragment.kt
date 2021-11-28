@@ -2,7 +2,6 @@ package com.entin.worldnews.presentation.ui.search
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -14,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.entin.worldnews.R
 import com.entin.worldnews.databinding.FragmentSearchBinding
-import com.entin.worldnews.domain.model.WorldNewsResult
+import com.entin.worldnews.domain.model.ViewModelResult
 import com.entin.worldnews.presentation.base.fragment.BaseFragment
 import com.entin.worldnews.presentation.base.fragment.extension.renderStateExtension
 import com.entin.worldnews.presentation.extension.observe
@@ -40,8 +39,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
     /**
      * State observer
      */
-    private val uiStateObserver = Observer<WorldNewsResult<ViewStateSearch>> { uiState ->
-        Log.i("WWW", "uiStateObserver")
+    private val uiStateObserver = Observer<ViewModelResult<ViewStateSearch>> { uiState ->
         setState(uiState)
     }
 
@@ -68,7 +66,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
      * Each WorldNewsResult<ViewStateSearch> goes to extension function
      * and then to the BaseFragment, where it is render all views
      */
-    private fun setState(uiState: WorldNewsResult<ViewStateSearch>) {
+    private fun setState(uiState: ViewModelResult<ViewStateSearch>) {
         renderStateExtension(
             root = binding.root,
             uiState = uiState,
@@ -104,7 +102,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
      */
     private fun initRecyclerView() {
         with(binding) {
-            listView.apply {
+            listViewFavourites.apply {
                 layoutManager = when (resources.configuration.orientation) {
                     Configuration.ORIENTATION_LANDSCAPE -> {
                         LinearLayoutManager(
@@ -183,7 +181,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
     override fun onDestroyView() {
         super.onDestroyView()
         searchAdapter.submitList(listOf())
-        binding.listView.adapter = null
+        binding.listViewFavourites.adapter = null
         searchJob?.cancel()
     }
 }

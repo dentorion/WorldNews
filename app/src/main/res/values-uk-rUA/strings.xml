@@ -24,8 +24,17 @@
     <string name="title_search">Пошук новин</string>
     <string name="alert_error_news">Помилка завантаження</string>
     <string name="alert_empty_news">Список порожній</string>
-    <string name="alert_same_content_news">Оновлення відсутні</string>
-    <string name="alert_internet_connection_error">Доступні тільки завантажені новини</string>
+    <string name="alert_forced_updated_news">Оновлення завершено</string>
+    <string name="alert_no_updates">Немає оновлень</string>
     <string name="unfortunately_error_has_happened">Unfortunately, error has happened!</string>
     <string name="try_again">TRY AGAIN</string>
+    <string name="menu_item_search_news">Search news</string>
+    <string name="menu_item_favourite_news">Favourite news</string>
+    <string name="menu_item_topics">ТЕМИ</string>
+    <string name="menu_item_all_topics">Всi теми</string>
+    <string name="menu_item_general_topics">Головнi теми</string>
+    <string name="menu_item_health_topics">Здоров\'я / Життя</string>
+    <string name="menu_item_sports_topics">Спорт</string>
+    <string name="menu_item_forced_download">Примусове завантаження</string>
+    <string name="menu_item_clear_old_news">Очистити старi новини</string>
 </resources>

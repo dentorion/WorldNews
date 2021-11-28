@@ -14,6 +14,7 @@ android {
         targetSdk = Android.targetSdk
 
         buildConfigField ("String", "MY_URL", "\"https://newsapi.org\"")
+//        buildConfigField("String", "MY_KEY", "\"6438fb9b1c6f4dc4bc9b1b0632241cc7\"")
         buildConfigField("String", "MY_KEY", "\"8faf141d20ff46de82ad1c4a76a0dbbe\"")
     }
 }

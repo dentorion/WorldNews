@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.entin.worldnews.R
 import com.entin.worldnews.databinding.FragmentFavouriteNewsBinding
-import com.entin.worldnews.domain.model.WorldNewsResult
+import com.entin.worldnews.domain.model.ViewModelResult
 import com.entin.worldnews.presentation.base.fragment.BaseFragment
 import com.entin.worldnews.presentation.base.fragment.extension.renderStateExtension
 import com.entin.worldnews.presentation.extension.observe
@@ -30,7 +30,7 @@ class FavouriteNewsFragment :
     /**
      * State observer
      */
-    private val uiStateObserver = Observer<WorldNewsResult<ViewStateFavourites>> { uiState ->
+    private val uiStateObserver = Observer<ViewModelResult<ViewStateFavourites>> { uiState ->
         setState(uiState)
     }
 
@@ -69,7 +69,7 @@ class FavouriteNewsFragment :
      */
     private fun initRecyclerView() {
         with(binding) {
-            listView.apply {
+            listViewFavourites.apply {
                 layoutManager = when (resources.configuration.orientation) {
                     Configuration.ORIENTATION_LANDSCAPE -> {
                         LinearLayoutManager(
@@ -104,7 +104,7 @@ class FavouriteNewsFragment :
      * Each WorldNewsResult<ViewStateFavourites> goes to extension function
      * and then to the BaseFragment, where it is render all views
      */
-    private fun setState(uiState: WorldNewsResult<ViewStateFavourites>) {
+    private fun setState(uiState: ViewModelResult<ViewStateFavourites>) {
         renderStateExtension(
             root = binding.root,
             uiState = uiState,
@@ -132,7 +132,7 @@ class FavouriteNewsFragment :
                 val article = favouriteNewsAdapter.currentList[viewHolder.absoluteAdapterPosition]
                 viewModel.deleteFromFavouriteNews(article.url)
             }
-        }).attachToRecyclerView(binding.listView)
+        }).attachToRecyclerView(binding.listViewFavourites)
     }
 
     /**
@@ -174,6 +174,6 @@ class FavouriteNewsFragment :
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding.listView.adapter = null
+        binding.listViewFavourites.adapter = null
     }
 }

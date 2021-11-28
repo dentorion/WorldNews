@@ -11,7 +11,7 @@ sealed class Country(val countryName: String) {
     object Russia : Country(RUSSIA)
 }
 
-const val USA = "us"
-const val POLAND = "pl"
-const val UKRAINE = "ua"
-const val RUSSIA = "ru"
+private const val USA = "us"
+private const val POLAND = "pl"
+private const val UKRAINE = "ua"
+private const val RUSSIA = "ru"

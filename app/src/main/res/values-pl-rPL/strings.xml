@@ -24,8 +24,17 @@
     <string name="title_search">Szukaj wiadomości</string>
     <string name="alert_error_news">Błąd pobierania %1$s</string>
     <string name="alert_empty_news">Pusta lista</string>
-    <string name="alert_same_content_news">Brak aktualizacji</string>
-    <string name="alert_internet_connection_error">Dostępne tylko zapisane wiadomości</string>
+    <string name="alert_forced_updated_news">"Aktualizacja zakończona "</string>
+    <string name="alert_no_updates">Brak aktualizacji</string>
     <string name="unfortunately_error_has_happened">Unfortunately, error has happened!</string>
     <string name="try_again">TRY AGAIN</string>
+    <string name="menu_item_search_news">Search news</string>
+    <string name="menu_item_favourite_news">Favourite news</string>
+    <string name="menu_item_topics">TEMATY</string>
+    <string name="menu_item_all_topics">Wszystkie tematy</string>
+    <string name="menu_item_general_topics">General topics</string>
+    <string name="menu_item_health_topics">Health topics</string>
+    <string name="menu_item_sports_topics">Sports topics</string>
+    <string name="menu_item_forced_download">Forced download</string>
+    <string name="menu_item_clear_old_news">Clear old news</string>
 </resources>

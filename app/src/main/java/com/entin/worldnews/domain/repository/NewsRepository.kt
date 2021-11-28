@@ -12,7 +12,7 @@ interface NewsRepository {
 
     suspend fun getFavouriteNews(): Flow<List<Article>>
 
-    suspend fun getSearchNews(query: String): List<Article>
+    suspend fun getSearchNews(query: String): Flow<List<Article>>
 
     suspend fun saveSearchedAndOpenedArticle(article: Article)
 
@@ -23,4 +23,6 @@ interface NewsRepository {
     suspend fun getFavouriteStatusArticle(url: String): Flow<Boolean>
 
     suspend fun deleteNewsByCountry(country: Country)
+
+    suspend fun checkLastTimeDownload(country: Country): Boolean
 }

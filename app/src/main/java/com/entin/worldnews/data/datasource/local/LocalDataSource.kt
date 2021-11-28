@@ -1,18 +1,18 @@
 package com.entin.worldnews.data.datasource.local
 
-import com.entin.db.entity.ArticleRoomModel
+import com.entin.db.entity.ArticleRoom
 import com.entin.worldnews.domain.model.Country
 import kotlinx.coroutines.flow.Flow
 
 interface LocalDataSource {
 
-    fun getNews(country: Country): Flow<List<ArticleRoomModel>>
+    fun getNews(country: Country): Flow<List<ArticleRoom>>
 
-    fun getFavouriteNews(): Flow<List<ArticleRoomModel>>
+    fun getFavouriteNews(): Flow<List<ArticleRoom>>
 
-    suspend fun saveNewsToDb(articleModels: List<ArticleRoomModel>)
+    suspend fun saveNewsToDb(articles: List<ArticleRoom>)
 
-    suspend fun saveSearchedAndOpenedArticle(articleModel: ArticleRoomModel)
+    suspend fun saveSearchedAndOpenedArticle(article: ArticleRoom)
 
     suspend fun setArticleAsShown(url: String)
 

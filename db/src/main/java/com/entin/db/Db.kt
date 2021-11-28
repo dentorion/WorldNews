@@ -3,9 +3,9 @@ package com.entin.db
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.entin.db.dao.NewsDAO
-import com.entin.db.entity.ArticleRoomModel
+import com.entin.db.entity.ArticleRoom
 
-@Database(entities = [ArticleRoomModel::class], version = 1, exportSchema = false)
+@Database(entities = [ArticleRoom::class], version = 1, exportSchema = false)
 abstract class Db: RoomDatabase() {
 
     abstract fun newsDao(): NewsDAO

@@ -98,6 +98,4 @@ dependencies {
     Dependencies.viewBindingDelegate.apply {
         implementation(main)
     }
-
-    debugImplementation ("com.squareup.leakcanary:leakcanary-android:2.7")
 }

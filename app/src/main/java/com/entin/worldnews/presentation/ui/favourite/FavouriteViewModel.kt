@@ -1,9 +1,8 @@
 package com.entin.worldnews.presentation.ui.favourite
 
 import androidx.lifecycle.viewModelScope
-import com.entin.worldnews.domain.model.Article
-import com.entin.worldnews.domain.model.PendingResult
-import com.entin.worldnews.domain.model.SuccessResult
+import com.entin.worldnews.domain.model.*
+import com.entin.worldnews.domain.usecase.ChangeFavouriteUseCase
 import com.entin.worldnews.domain.usecase.GetFavouriteNewsUseCase
 import com.entin.worldnews.presentation.base.viewmodel.BaseViewModel
 import com.entin.worldnews.presentation.base.viewmodel.LiveResult
@@ -22,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FavouriteViewModel @Inject constructor(
     private val getFavouriteNewsUseCase: GetFavouriteNewsUseCase,
+    private val changeFavouriteUseCase: ChangeFavouriteUseCase,
     private val navManager: NavManager
 ) : BaseViewModel() {
 
@@ -36,7 +36,7 @@ class FavouriteViewModel @Inject constructor(
      * Deleting item news from favourite list
      */
     fun deleteFromFavouriteNews(url: String) = viewModelScope.launch {
-        getFavouriteNewsUseCase.deleteFromFavouriteNews(url)
+        changeFavouriteUseCase(url)
 
         _stateScreen.postValue(
             SuccessResult(
@@ -63,29 +63,36 @@ class FavouriteViewModel @Inject constructor(
      * Get favourite news and react by quantity items
      */
     fun getFavouriteNewsList() = viewModelScope.launch {
-        getFavouriteNewsUseCase.execute().collect { news ->
-            if (news.isEmpty()) {
-                _stateScreen.postValue(
-                    SuccessResult(
-                        ViewStateFavourites(
-                            isLoading = false,
-                            news = listOf(),
-                            empty = true,
-                            deleted = false
+        getFavouriteNewsUseCase().collect { useCaseResponse ->
+            when(useCaseResponse) {
+                UseCaseResult.Empty -> {
+                    _stateScreen.postValue(
+                        SuccessResult(
+                            ViewStateFavourites(
+                                isLoading = false,
+                                news = listOf(),
+                                empty = true,
+                                deleted = false
+                            )
                         )
                     )
-                )
-            } else {
-                _stateScreen.postValue(
+                }
+                is UseCaseResult.Error -> {
+                    _stateScreen.postValue(
+                        ErrorResult(useCaseResponse.e.message!!)
+                    )
+                }
+                is UseCaseResult.Success -> {
+                    _stateScreen.postValue(
                     SuccessResult(
                         ViewStateFavourites(
                             isLoading = false,
-                            news = news,
+                            news = useCaseResponse.data,
                             empty = false,
                             deleted = false
                         )
                     )
-                )
+                )}
             }
         }
     }

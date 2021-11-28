@@ -3,14 +3,16 @@ package com.entin.worldnews.presentation.ui.country.components
 import androidx.lifecycle.viewModelScope
 import com.entin.worldnews.NavgraphDirections
 import com.entin.worldnews.domain.model.*
-import com.entin.worldnews.domain.usecase.DeleteNewsUseCase
-import com.entin.worldnews.domain.usecase.GetNewsUseCase
+import com.entin.worldnews.domain.usecase.CheckLastTimeDownloadUseCase
+import com.entin.worldnews.domain.usecase.DeleteNewsByCountryUseCase
+import com.entin.worldnews.domain.usecase.GetNewsByCountryUseCase
 import com.entin.worldnews.presentation.base.viewmodel.BaseViewModel
 import com.entin.worldnews.presentation.base.viewmodel.LiveResult
 import com.entin.worldnews.presentation.base.viewmodel.MutableLiveResult
 import com.entin.worldnews.presentation.navigation.NavManager
 import com.entin.worldnews.presentation.ui.dialogs.delete.DeleteFinishedDialogDirections
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,9 +23,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CountryViewModel @Inject constructor(
-    private val deleteNewsUseCase: DeleteNewsUseCase,
-    private val getNewsUseCase: GetNewsUseCase,
-    private val navManager: NavManager
+    private val deleteNewsByCountryUseCase: DeleteNewsByCountryUseCase,
+    private val getNewsByCountryUseCase: GetNewsByCountryUseCase,
+    private val checkLastTimeDownloadUseCase: CheckLastTimeDownloadUseCase,
+    private val navManager: NavManager,
 ) : BaseViewModel() {
 
     /**
@@ -34,14 +37,55 @@ class CountryViewModel @Inject constructor(
     val stateScreen: LiveResult<CountryViewState> = _stateScreen
 
     /**
-     * State : was update manual?
-     */
-    var isManualUpdate = false
-
-    /**
      * Current country viewModel working with
      */
     private lateinit var currentCountry: Country
+
+    /**
+     * Current topic of news
+     */
+    var stateOfNewsTopic: NewsTopic = NewsTopic.All
+        private set
+
+    /**
+     * Loading news
+     */
+    fun loadData(currentCountry: Country, isForced: Boolean = false) {
+        setCurrentCountry(currentCountry)
+        getNewsList(isForced)
+    }
+
+    /**
+     * Set new topic of interesting news
+     */
+    fun setNewsTopic(topic: NewsTopic) {
+        stateOfNewsTopic = topic
+        loadData(currentCountry)
+    }
+
+    /**
+     * On swipe guest reaction: check is last time downloading less than 2 hours from now.
+     * If yes -> this.loadData() / no -> Toast about zero updates (server has rare updates).
+     */
+    fun onSwipeGuest(country: Country) = viewModelScope.launch {
+        if (checkLastTimeDownloadUseCase(country)) {
+            loadData(country)
+        } else {
+            _stateScreen.postValue(
+                stateScreen.value.takeSuccessOnly()?.let {
+                    SuccessResult(it.copy(isSame = true))
+                }
+            )
+        }
+    }
+
+    /**
+     * Delete all news by country
+     */
+    fun deleteNewsByCountry(country: Country) = viewModelScope.launch {
+        deleteNewsByCountryUseCase(country)
+        navManager.navigate(DeleteFinishedDialogDirections.actionGlobalNewsDeleted())
+    }
 
     /**
      * Navigation
@@ -62,14 +106,6 @@ class CountryViewModel @Inject constructor(
     }
 
     /**
-     * Loading news
-     */
-    fun loadData(currentCountry: Country, isForced: Boolean = false) {
-        setCurrentCountry(currentCountry)
-        getNewsList(isForced)
-    }
-
-    /**
      * Set current country
      */
     private fun setCurrentCountry(country: Country) {
@@ -79,34 +115,28 @@ class CountryViewModel @Inject constructor(
     /**
      * Request news in UseCase and react on response
      */
-    private fun getNewsList(isForced: Boolean) = viewModelScope.launch {
-        getNewsUseCase.execute(currentCountry, isForced).also { result ->
-            when (result) {
-                is GetNewsUseCase.UseCaseResult.Success -> {
-                    _stateScreen.postValue(
-                        SuccessResult(CountryViewState(news = result.data))
-                    )
-                }
-                is GetNewsUseCase.UseCaseResult.Error -> {
-                    _stateScreen.postValue(
-                        ErrorResult(result.e.message.toString())
-                    )
-                }
-                is GetNewsUseCase.UseCaseResult.Empty -> {
-                    _stateScreen.postValue(
-                        SuccessResult(CountryViewState(isEmpty = true))
-                    )
+    private fun getNewsList(isForced: Boolean) {
+        viewModelScope.launch {
+            getNewsByCountryUseCase(currentCountry, isForced).collect { result ->
+                when (result) {
+                    is UseCaseResult.Success -> {
+                        _stateScreen.postValue(
+                            SuccessResult(CountryViewState(news = result.data, isForced = isForced))
+                        )
+                    }
+                    is UseCaseResult.Error -> {
+                        _stateScreen.postValue(
+                            ErrorResult(result.e.message.toString())
+                        )
+                    }
+                    is UseCaseResult.Empty -> {
+                        _stateScreen.postValue(
+                            SuccessResult(CountryViewState(isForced = isForced))
+                        )
+                    }
                 }
             }
         }
-    }
-
-    /**
-     * Delete all news by country
-     */
-    fun deleteNewsByCountry(country: Country) = viewModelScope.launch {
-        deleteNewsUseCase.execute(country)
-        navManager.navigate(DeleteFinishedDialogDirections.actionGlobalNewsDeleted())
     }
 }
 
@@ -115,6 +145,7 @@ class CountryViewModel @Inject constructor(
  */
 data class CountryViewState(
     val message: String = "",
-    val isEmpty: Boolean = false,
-    val news: List<Article> = listOf()
+    val news: List<Article> = listOf(),
+    val isForced: Boolean = false,
+    val isSame: Boolean = false,
 )

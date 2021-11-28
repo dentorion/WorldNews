@@ -8,4 +8,6 @@ interface RemoteDataSource {
     suspend fun getNews(country: Country): List<ArticleJson>
 
     suspend fun getSearchNews(query: String): List<ArticleJson>
+
+    suspend fun getNews2(country: Country): List<ArticleJson>
 }

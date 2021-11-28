@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,12 +13,15 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.entin.network.api.CATEGORY_GENERAL
+import com.entin.network.api.CATEGORY_HEALTH
+import com.entin.network.api.CATEGORY_SPORTS
 import com.entin.worldnews.R
 import com.entin.worldnews.domain.model.Article
 import com.entin.worldnews.presentation.extension.setClickListener
 import com.entin.worldnews.presentation.extension.show
 import com.entin.worldnews.presentation.extension.visible
-import com.entin.worldnews.presentation.util.MapperDate
+import com.entin.worldnews.presentation.util.date.MapperDate
 
 abstract class BaseNewsAdapter :
     ListAdapter<Article, BaseNewsAdapter.TaskViewHolder>(DiffCallback()) {
@@ -44,7 +48,6 @@ abstract class BaseNewsAdapter :
         private val imageView: ImageView = view.root.findViewById(R.id.imageView)
 
         fun bind(article: Article) {
-
             val position = absoluteAdapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 itemView.setClickListener {
@@ -56,6 +59,28 @@ abstract class BaseNewsAdapter :
                 if (!article.author.isNullOrEmpty()) {
                     author.show()
                     author.text = article.author
+                }
+
+                when (article.category) {
+                    CATEGORY_GENERAL -> {
+                        publishedAt.background = ContextCompat.getDrawable(
+                            view.root.context,
+                            R.drawable.rectangle_coral_background
+                        )
+                    }
+                    CATEGORY_HEALTH -> {
+                        publishedAt.background = ContextCompat.getDrawable(
+                            view.root.context,
+                            R.drawable.rectangle_blue_background
+                        )
+
+                    }
+                    CATEGORY_SPORTS -> {
+                        publishedAt.background = ContextCompat.getDrawable(
+                            view.root.context,
+                            R.drawable.rectangle_green_background
+                        )
+                    }
                 }
 
                 publishedAt.text = MapperDate.cropPublishedAtToDate(article.publishedAt)

@@ -22,6 +22,8 @@ data class Article(
 
     var favourite: Boolean = false,
 
-    var shown: Boolean = false
+    var shown: Boolean = false,
+
+    var category: String?,
 
 ) : Parcelable

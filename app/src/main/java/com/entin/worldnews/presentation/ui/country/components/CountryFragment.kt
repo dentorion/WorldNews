@@ -2,21 +2,24 @@ package com.entin.worldnews.presentation.ui.country.components
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.entin.network.api.CATEGORY_GENERAL
+import com.entin.network.api.CATEGORY_HEALTH
+import com.entin.network.api.CATEGORY_SPORTS
 import com.entin.worldnews.R
 import com.entin.worldnews.databinding.FragmentCountryNewsBinding
 import com.entin.worldnews.domain.model.Country
-import com.entin.worldnews.domain.model.WorldNewsResult
+import com.entin.worldnews.domain.model.NewsTopic
+import com.entin.worldnews.domain.model.ViewModelResult
 import com.entin.worldnews.presentation.base.fragment.BaseFragment
 import com.entin.worldnews.presentation.base.fragment.extension.renderStateExtension
 import com.entin.worldnews.presentation.extension.observe
 import com.entin.worldnews.presentation.extension.visible
 import com.entin.worldnews.presentation.ui.dialogs.delete.DeleteFinishedDialog
-import com.entin.worldnews.presentation.util.ConnectionLiveData
+import com.entin.worldnews.presentation.util.connection.ConnectionLiveData
 import com.entin.worldnews.presentation.util.simpleShortSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -52,7 +55,7 @@ open class CountryFragment(
     /**
      * State observer
      */
-    private val stateObserver = Observer<WorldNewsResult<CountryViewState>> { result ->
+    private val stateObserver = Observer<ViewModelResult<CountryViewState>> { result ->
         setState(result)
     }
 
@@ -64,7 +67,6 @@ open class CountryFragment(
         isConnected = connection
         // true -> is connection / visible = false
         // false -> no connection / visible = true
-        Log.i("WWW", "connection is $connection")
         binding.noInternetPart.visible = !isConnected
     }
 
@@ -133,7 +135,7 @@ open class CountryFragment(
         }
 
         with(binding) {
-            listView.apply {
+            listViewFavourites.apply {
                 layoutManager = LinearLayoutManager(
                     requireContext().applicationContext,
                     orientationLayoutManager,
@@ -154,9 +156,8 @@ open class CountryFragment(
             swipeRefresh.apply {
                 setColorSchemeResources(R.color.colorAccent)
                 setOnRefreshListener {
-                    viewModel.isManualUpdate = true
+                    viewModel.onSwipeGuest(country = currentCountry)
                     isRefreshing = false
-                    loadData()
                 }
             }
         }
@@ -169,7 +170,7 @@ open class CountryFragment(
         if (!isConnected) {
             simpleShortSnackBar(
                 requireView(),
-                requireContext().getString(R.string.alert_internet_connection_error)
+                requireContext().getString(R.string.alert_no_updates)
             )
         }
         viewModel.loadData(currentCountry, isForced)
@@ -179,23 +180,46 @@ open class CountryFragment(
      * Each WorldNewsResult<CountryViewState> goes to extension function
      * and then to the BaseFragment, where it is render all views
      */
-    private fun setState(uiState: WorldNewsResult<CountryViewState>) {
+    private fun setState(uiState: ViewModelResult<CountryViewState>) {
         renderStateExtension(
             root = binding.root,
             uiState = uiState,
             onSuccess = { viewState ->
-                if (viewState.isEmpty) {
-                    simpleShortSnackBar(
-                        requireView(),
-                        requireContext().getString(R.string.alert_empty_news)
-                    )
-                }
-                if (viewState.news.isNotEmpty()) {
-                    Log.i("WWW", "CountryFragment. setState. Size: ${viewState.news.size}")
-                    newsAdapter.submitList(viewState.news)
-                }
+                onSuccess(viewState)
             },
         )
+    }
+
+    /**
+     * What should be done onSuccess received
+     */
+    private fun onSuccess(viewState: CountryViewState) {
+        if (viewState.isForced) {
+            simpleShortSnackBar(
+                requireView(),
+                requireContext().getString(R.string.alert_forced_updated_news)
+            )
+        }
+        if (viewState.isSame) {
+            simpleShortSnackBar(
+                requireView(),
+                requireContext().getString(R.string.alert_no_updates)
+            )
+        }
+        if (viewState.news.isNotEmpty()) {
+            val allNews = when (viewModel.stateOfNewsTopic) {
+                NewsTopic.All -> viewState.news
+                NewsTopic.General -> viewState.news.filter { it.category == CATEGORY_GENERAL }
+                NewsTopic.Health -> viewState.news.filter { it.category == CATEGORY_HEALTH }
+                NewsTopic.Sports -> viewState.news.filter { it.category == CATEGORY_SPORTS }
+            }
+            newsAdapter.submitList(allNews)
+        } else {
+            simpleShortSnackBar(
+                requireView(),
+                requireContext().getString(R.string.alert_empty_news)
+            )
+        }
     }
 
     /**
@@ -226,6 +250,22 @@ open class CountryFragment(
                 DeleteFinishedDialog(currentCountry).show(childFragmentManager, "TAG")
                 true
             }
+            R.id.action_all_topics -> {
+                viewModel.setNewsTopic(NewsTopic.All)
+                true
+            }
+            R.id.action_general_topics -> {
+                viewModel.setNewsTopic(NewsTopic.General)
+                true
+            }
+            R.id.action_health_topics -> {
+                viewModel.setNewsTopic(NewsTopic.Health)
+                true
+            }
+            R.id.action_sports_topics -> {
+                viewModel.setNewsTopic(NewsTopic.Sports)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -235,7 +275,7 @@ open class CountryFragment(
      */
     override fun onDestroyView() {
         super.onDestroyView()
-        binding.listView.adapter = null
+        binding.listViewFavourites.adapter = null
         _binding = null
     }
 }

@@ -1,41 +1,40 @@
 package com.entin.worldnews.data.repository
 
-import com.entin.db.entity.ArticleRoomModel
+import com.entin.db.entity.ArticleRoom
 import com.entin.extension.handleRequest
 import com.entin.worldnews.data.datasource.local.LocalDataSource
+import com.entin.worldnews.data.datasource.local.sharedpref.NewsSharedPreferences
 import com.entin.worldnews.data.datasource.remote.RemoteDataSource
 import com.entin.worldnews.data.extension.toDbModel
 import com.entin.worldnews.data.extension.toDomainModel
 import com.entin.worldnews.domain.model.Article
 import com.entin.worldnews.domain.model.Country
 import com.entin.worldnews.domain.repository.NewsRepository
-import com.entin.worldnews.presentation.util.NewsSharedPreferences
 import com.entin.worldnews.presentation.util.TIME_2HOURS_DOWNLOAD_PAUSE
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Downloading news only once in 2 hours or manually forced download
  * Time of last downloading is saved in Preferences by extension
  */
 
-@Singleton
 class NewsRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource,
-    private val sharedPreferences: NewsSharedPreferences
+    private val cacheSettings: NewsSharedPreferences,
 ) : NewsRepository {
 
     /**
-     * Check news by country were downloaded
+     * Check news by country were downloaded (inside sugar of timechecking)
      * Check last lime news downloaded
      * return from SERVER->DB or DB
      */
     override suspend fun getNews(country: Country): Flow<List<Article>> {
-        return if (sharedPreferences.wasDownloaded(country)) {
-            if (checkTimeDifference(sharedPreferences.getLastTimeDownloaded(country))) {
+        return if (cacheSettings.wasDownloaded(country)) {
+            if (checkTimeDifference(cacheSettings.getLastTimeDownloaded(country))) {
                 downloadNews(country)
             } else {
                 getNewsFromDb(country)
@@ -50,10 +49,8 @@ class NewsRepositoryImpl @Inject constructor(
      * Update preferences by country and last download time
      */
     override suspend fun forcedNewsDownload(country: Country): Flow<List<Article>> {
-        val response = downloadNews(country)
-        sharedPreferences.clearLastDownload(country)
-        sharedPreferences.addCurrentTimeByCountry(country)
-        return response
+        cacheSettings.clearLastDownload(country)
+        return downloadNews(country)
     }
 
     /**
@@ -67,11 +64,11 @@ class NewsRepositoryImpl @Inject constructor(
     /**
      *  Search news WITHOUT saving to DB
      */
-    override suspend fun getSearchNews(query: String): List<Article> {
-        return if (query.isNotEmpty()) {
-            remoteDataSource.getSearchNews(query).map { it.toDomainModel() }
+    override suspend fun getSearchNews(query: String): Flow<List<Article>> = flow {
+        if (query.isNotEmpty()) {
+            emit(remoteDataSource.getSearchNews(query).map { it.toDomainModel() })
         } else {
-            listOf()
+            emit(listOf<Article>())
         }
     }
 
@@ -83,18 +80,36 @@ class NewsRepositoryImpl @Inject constructor(
         localDataSource.saveSearchedAndOpenedArticle(articleRoom)
     }
 
+    /**
+     * Set opened article as shown (eye icon)
+     */
     override suspend fun setArticleShown(url: String) =
         localDataSource.setArticleAsShown(url = url)
 
+    /**
+     * Change favourite state of article
+     */
     override suspend fun changeFavouriteArticle(url: String) =
         localDataSource.changeFavouriteStatusArticle(url = url)
 
+    /**
+     * Get favourite state of article
+     */
     override suspend fun getFavouriteStatusArticle(url: String): Flow<Boolean> =
         localDataSource.getFavouriteStatusArticle(url = url)
 
+    /**
+     * Public function of private calculating
+     */
+    override suspend fun checkLastTimeDownload(country: Country): Boolean =
+        checkTimeDifference(cacheSettings.getLastTimeDownloaded(country))
+
+    /**
+     * Delete all news by country
+     */
     override suspend fun deleteNewsByCountry(country: Country) {
         localDataSource.deleteNewsByCountry(country)
-        sharedPreferences.clearLastDownload(country)
+        cacheSettings.clearLastDownload(country)
     }
 
     // Private functions
@@ -102,7 +117,7 @@ class NewsRepositoryImpl @Inject constructor(
     private suspend fun downloadNews(country: Country): Flow<List<Article>> {
         val apiAnswer = getNewsApiAndConvertToDbModel(country)
         return if (apiAnswer.isNotEmpty()) {
-            sharedPreferences.addCurrentTimeByCountry(country)
+            cacheSettings.addCurrentTimeByCountry(country)
             saveNewsDb(apiAnswer)
             getNewsFromDb(country)
         } else {
@@ -117,7 +132,7 @@ class NewsRepositoryImpl @Inject constructor(
         return true
     }
 
-    private suspend fun getNewsApiAndConvertToDbModel(country: Country): List<ArticleRoomModel> {
+    private suspend fun getNewsApiAndConvertToDbModel(country: Country): List<ArticleRoom> {
         val result = safeRequest(country)
         return if (result.isSuccess) {
             if (result.getOrNull() != null) {
@@ -130,9 +145,9 @@ class NewsRepositoryImpl @Inject constructor(
         }
     }
 
-    private suspend fun safeRequest(country: Country): Result<List<ArticleRoomModel>> {
+    private suspend fun safeRequest(country: Country): Result<List<ArticleRoom>> {
         return handleRequest {
-            val response = remoteDataSource.getNews(country = country).map { it.toDbModel() }
+            val response = remoteDataSource.getNews2(country = country).map { it.toDbModel() }
             response.map { it.country = country.countryName }
             response
         }
@@ -143,7 +158,6 @@ class NewsRepositoryImpl @Inject constructor(
             it.map { it.toDomainModel() }
         }
 
-    private suspend fun saveNewsDb(articleModels: List<ArticleRoomModel>) =
-        localDataSource.saveNewsToDb(articleModels = articleModels)
-
+    private suspend fun saveNewsDb(articles: List<ArticleRoom>) =
+        localDataSource.saveNewsToDb(articles = articles)
 }

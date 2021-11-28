@@ -1,20 +1,27 @@
 package com.entin.worldnews.data.extension
 
-import com.entin.db.entity.ArticleRoomModel
+import com.entin.db.entity.ArticleRoom
 import com.entin.network.model.ArticleJson
 import com.entin.worldnews.domain.model.Article
 
+/**
+ * Article Server Response -> Article Room model
+ */
 fun ArticleJson.toDbModel() =
-    ArticleRoomModel(
+    ArticleRoom(
         author = this.author,
         content = this.content,
         description = this.description,
         publishedAt = this.publishedAt,
         title = this.title,
         url = this.url,
-        urlToImage = this.urlToImage
+        urlToImage = this.urlToImage,
+        category = this.category,
     )
 
+/**
+ * Article Server Response -> Article Domain model
+ */
 fun ArticleJson.toDomainModel() = Article(
     author = this.author,
     content = this.content,
@@ -22,10 +29,14 @@ fun ArticleJson.toDomainModel() = Article(
     publishedAt = this.publishedAt,
     title = this.title,
     url = this.url,
-    urlToImage = this.urlToImage
+    urlToImage = this.urlToImage,
+    category = this.category,
 )
 
-fun ArticleRoomModel.toDomainModel() = Article(
+/**
+ * Article Room model -> Article Domain model
+ */
+fun ArticleRoom.toDomainModel() = Article(
     author = this.author,
     content = this.content,
     description = this.description,
@@ -33,15 +44,20 @@ fun ArticleRoomModel.toDomainModel() = Article(
     title = this.title,
     url = this.url,
     urlToImage = this.urlToImage,
-    shown = this.shown
+    shown = this.shown,
+    category = this.category,
 )
 
-fun Article.toDbModel() = ArticleRoomModel(
+/**
+ * Article Domain model -> Article Room model
+ */
+fun Article.toDbModel() = ArticleRoom(
     url = this.url,
     title = this.title,
     author = this.author,
     content = this.content,
     description = this.description,
     publishedAt = this.publishedAt,
-    urlToImage = this.urlToImage
+    urlToImage = this.urlToImage,
+    category = this.category,
 )
