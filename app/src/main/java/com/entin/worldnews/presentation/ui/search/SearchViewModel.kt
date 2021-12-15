@@ -35,9 +35,19 @@ class SearchViewModel @Inject constructor(
     private var myJob: Job? = null
 
     /**
+     * Last input query search
+     */
+    private var lastQuery = ""
+
+    override fun onRepeat() {
+        search(lastQuery)
+    }
+
+    /**
      * Search news function
      */
     fun search(searchInput: String) {
+        lastQuery = searchInput
         myJob?.cancel()
         myJob = viewModelScope.launch {
             _stateScreen.postValue(PendingResult())

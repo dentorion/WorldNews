@@ -15,4 +15,7 @@ typealias MutableLiveResult<T> = MutableLiveData<ViewModelResult<T>>
  * Base ViewModel
  */
 
-abstract class BaseViewModel : ViewModel()
+abstract class BaseViewModel : ViewModel() {
+
+    abstract fun onRepeat()
+}

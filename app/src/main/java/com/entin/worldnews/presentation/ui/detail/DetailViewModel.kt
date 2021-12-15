@@ -53,6 +53,10 @@ class DetailViewModel @Inject constructor(
     private val _favouriteChannel = Channel<Boolean>()
     val favouriteChannel = _favouriteChannel.receiveAsFlow()
 
+    override fun onRepeat() {
+        getArticle()
+    }
+
     /**
      * Create inside data for ui state with Article
      * Set Article as watched

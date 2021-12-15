@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.entin.worldnews.R
 import com.entin.worldnews.databinding.FragmentFavouriteNewsBinding
+import com.entin.worldnews.databinding.PartLoadingBinding
 import com.entin.worldnews.domain.model.ViewModelResult
 import com.entin.worldnews.presentation.base.fragment.BaseFragment
 import com.entin.worldnews.presentation.base.fragment.extension.renderStateExtension
@@ -42,6 +43,8 @@ class FavouriteNewsFragment :
         initRecyclerView()
 
         initUiStateObserver()
+
+        initRepeatButton()
 
         initDeleteSwipeGuest()
 
@@ -98,6 +101,13 @@ class FavouriteNewsFragment :
      */
     private fun initUiStateObserver() {
         observe(viewModel.uiStateFavourites, uiStateObserver)
+    }
+
+    /**
+     * Repeat button in merged layout triggers viewModel data loading function
+     */
+    private fun initRepeatButton() {
+        super.initRepeatButton(partLoadingBinding = PartLoadingBinding.bind(binding.root))
     }
 
     /**

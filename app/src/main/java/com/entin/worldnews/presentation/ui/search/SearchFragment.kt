@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.entin.worldnews.R
 import com.entin.worldnews.databinding.FragmentSearchBinding
+import com.entin.worldnews.databinding.PartLoadingBinding
 import com.entin.worldnews.domain.model.ViewModelResult
 import com.entin.worldnews.presentation.base.fragment.BaseFragment
 import com.entin.worldnews.presentation.base.fragment.extension.renderStateExtension
@@ -57,6 +58,9 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
 
         // News searched data
         initUiStateObserver()
+
+        // Repeat button
+        initRepeatButton()
 
         // Listener of user typing
         initTextSearchListener()
@@ -140,6 +144,13 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
      */
     private fun initUiStateObserver() {
         observe(viewModel.uiStateSearch, uiStateObserver)
+    }
+
+    /**
+     * Repeat button in merged layout triggers viewModel data loading function
+     */
+    private fun initRepeatButton() {
+        super.initRepeatButton(partLoadingBinding = PartLoadingBinding.bind(binding.root))
     }
 
     /**

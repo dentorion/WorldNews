@@ -20,7 +20,7 @@ import javax.inject.Singleton
  * MinSdk = 21.
  */
 
-class ConnectionLiveData(@ApplicationContext private val context: Context) : LiveData<Boolean>() {
+class ConnectionCheckLiveData(@ApplicationContext private val context: Context) : LiveData<Boolean>() {
     private lateinit var networkCallback: ConnectivityManager.NetworkCallback
     private val cm = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
     private val validNetworks: MutableSet<Network> = HashSet()

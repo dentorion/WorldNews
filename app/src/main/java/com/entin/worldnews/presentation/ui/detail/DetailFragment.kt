@@ -110,11 +110,9 @@ class DetailFragment : BaseFragment(R.layout.detail_fragment) {
     private fun initContent(article: DetailViewState) {
         with(binding) {
             detailTitle.text = article.title
-            author.text = if (article.author.isEmpty()) {
+            author.text = article.author.ifEmpty {
                 binding.authorLabelImg.visible = false
                 ""
-            } else {
-                article.author
             }
             detailPublishedAt.text = article.publishedAt
             detailPublishTime.text = article.publishedTime

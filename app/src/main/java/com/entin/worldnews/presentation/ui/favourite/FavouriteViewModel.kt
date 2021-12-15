@@ -32,6 +32,10 @@ class FavouriteViewModel @Inject constructor(
     private val _stateScreen = MutableLiveResult<ViewStateFavourites>(PendingResult())
     val uiStateFavourites: LiveResult<ViewStateFavourites> = _stateScreen
 
+    override fun onRepeat() {
+        getFavouriteNewsList()
+    }
+
     /**
      * Deleting item news from favourite list
      */

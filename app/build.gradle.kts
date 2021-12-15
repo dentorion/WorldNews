@@ -12,6 +12,7 @@ android {
     buildToolsVersion = Android.buildTools
 
     defaultConfig {
+        applicationId = "com.entin.worldnews"
         minSdk = Android.minSdk
         targetSdk = Android.targetSdk
         versionCode = 1
@@ -29,10 +30,6 @@ android {
 
     buildFeatures {
         viewBinding = true
-    }
-
-    defaultConfig {
-        applicationId = "com.entin.worldnews"
     }
 
     buildTypes {

@@ -47,6 +47,10 @@ class CountryViewModel @Inject constructor(
     var stateOfNewsTopic: NewsTopic = NewsTopic.All
         private set
 
+    override fun onRepeat() {
+        loadData(currentCountry)
+    }
+
     /**
      * Loading news
      */

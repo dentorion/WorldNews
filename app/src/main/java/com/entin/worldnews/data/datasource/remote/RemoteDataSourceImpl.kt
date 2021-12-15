@@ -14,17 +14,13 @@ class RemoteDataSourceImpl @Inject constructor(
     private val apiService: NewsApiService
 ) : RemoteDataSource {
 
-    override suspend fun getNews(country: Country): List<ArticleJson> =
-        apiService.getNewsByCountryGeneral(country = country.countryName).articles
-
     override suspend fun getSearchNews(query: String): List<ArticleJson> =
         apiService.getSearchedNews(query = query).articles
 
-
-    override suspend fun getNews2(country: Country): List<ArticleJson> {
-        val general = getGeneralNewsByCountry2(country).onEach { it.category = CATEGORY_GENERAL }
-        val health = getHealthNewsByCountry2(country).onEach { it.category = CATEGORY_HEALTH }
-        val sports = getSportsNewsByCountry2(country).onEach { it.category = CATEGORY_SPORTS }
+    override suspend fun getNews(country: Country): List<ArticleJson> {
+        val general = getGeneralNewsByCountry(country).onEach { it.category = CATEGORY_GENERAL }
+        val health = getHealthNewsByCountry(country).onEach { it.category = CATEGORY_HEALTH }
+        val sports = getSportsNewsByCountry(country).onEach { it.category = CATEGORY_SPORTS }
 
         return mutableListOf<ArticleJson>().apply {
             addAll(general)
@@ -35,12 +31,12 @@ class RemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    private suspend fun getGeneralNewsByCountry2(country: Country) =
+    private suspend fun getGeneralNewsByCountry(country: Country) =
         apiService.getNewsByCountryGeneral(country = country.countryName).articles
 
-    private suspend fun getHealthNewsByCountry2(country: Country) =
+    private suspend fun getHealthNewsByCountry(country: Country) =
         apiService.getNewsByCountryHealth(country = country.countryName).articles
 
-    private suspend fun getSportsNewsByCountry2(country: Country) =
+    private suspend fun getSportsNewsByCountry(country: Country) =
         apiService.getNewsByCountrySports(country = country.countryName).articles
 }

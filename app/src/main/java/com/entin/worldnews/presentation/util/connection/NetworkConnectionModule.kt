@@ -15,5 +15,5 @@ object NetworkConnectionModule {
     @Provides
     @Singleton
     fun provideNetworkCheck(@ApplicationContext context: Context) =
-        ConnectionLiveData(context = context)
+        ConnectionCheckLiveData(context = context)
 }

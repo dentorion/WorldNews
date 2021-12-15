@@ -11,6 +11,7 @@ import com.entin.network.api.CATEGORY_HEALTH
 import com.entin.network.api.CATEGORY_SPORTS
 import com.entin.worldnews.R
 import com.entin.worldnews.databinding.FragmentCountryNewsBinding
+import com.entin.worldnews.databinding.PartLoadingBinding
 import com.entin.worldnews.domain.model.Country
 import com.entin.worldnews.domain.model.NewsTopic
 import com.entin.worldnews.domain.model.ViewModelResult
@@ -19,7 +20,7 @@ import com.entin.worldnews.presentation.base.fragment.extension.renderStateExten
 import com.entin.worldnews.presentation.extension.observe
 import com.entin.worldnews.presentation.extension.visible
 import com.entin.worldnews.presentation.ui.dialogs.delete.DeleteFinishedDialog
-import com.entin.worldnews.presentation.util.connection.ConnectionLiveData
+import com.entin.worldnews.presentation.util.connection.ConnectionCheckLiveData
 import com.entin.worldnews.presentation.util.simpleShortSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -35,7 +36,7 @@ open class CountryFragment(
     private val currentCountry: Country
 ) : BaseFragment(R.layout.fragment_country_news) {
 
-    // Binding main
+    // Binding
     private var _binding: FragmentCountryNewsBinding? = null
     private val binding get() = _binding!!
 
@@ -45,16 +46,12 @@ open class CountryFragment(
     // RecycleView Adapter - List Adapter
     private val newsAdapter = CountryNewsAdapter()
 
-    /**
-     * Check connection to Internet observer
-     */
+    // Check connection to Internet
     @Inject
-    lateinit var connectionManager: ConnectionLiveData
+    lateinit var connectionCheckManager: ConnectionCheckLiveData
     private var isConnected = true
 
-    /**
-     * State observer
-     */
+    // State observer
     private val stateObserver = Observer<ViewModelResult<CountryViewState>> { result ->
         setState(result)
     }
@@ -90,6 +87,8 @@ open class CountryFragment(
 
         initObservers()
 
+        initRepeatButton()
+
         initRecyclerClickListener()
 
         initRecyclerLayoutManager()
@@ -106,7 +105,7 @@ open class CountryFragment(
      */
     private fun initObservers() {
         // Internet connection
-        observe(connectionManager, connectionObserver)
+        observe(connectionCheckManager, connectionObserver)
 
         // Ui state observer
         observe(viewModel.stateScreen, stateObserver)
@@ -119,6 +118,13 @@ open class CountryFragment(
         newsAdapter.setClickListener { article ->
             viewModel.navigateToArticleDetails(article)
         }
+    }
+
+    /**
+     * Repeat button in merged layout triggers viewModel data loading function
+     */
+    private fun initRepeatButton() {
+        super.initRepeatButton(partLoadingBinding = PartLoadingBinding.bind(binding.root))
     }
 
     /**

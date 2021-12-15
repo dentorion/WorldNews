@@ -1,6 +1,7 @@
 package com.entin.worldnews.presentation.base.fragment
 
 import androidx.fragment.app.Fragment
+import com.entin.worldnews.databinding.PartLoadingBinding
 import com.entin.worldnews.domain.model.ErrorResult
 import com.entin.worldnews.domain.model.PendingResult
 import com.entin.worldnews.domain.model.SuccessResult
@@ -33,6 +34,12 @@ abstract class BaseFragment(layoutRes: Int) : Fragment(layoutRes) {
             is ErrorResult -> onError(uiState.exception)
             is PendingResult -> onPending()
             is SuccessResult -> onSuccess(uiState.data)
+        }
+    }
+
+    fun initRepeatButton(partLoadingBinding: PartLoadingBinding) {
+        partLoadingBinding.tryAgainButtonPart.setOnClickListener {
+            viewModel.onRepeat()
         }
     }
 }

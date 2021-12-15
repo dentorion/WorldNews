@@ -68,7 +68,8 @@ class NewsRepositoryImpl @Inject constructor(
         if (query.isNotEmpty()) {
             emit(remoteDataSource.getSearchNews(query).map { it.toDomainModel() })
         } else {
-            emit(listOf<Article>())
+            // listOf<Article>()
+            emit(listOf())
         }
     }
 
@@ -147,7 +148,7 @@ class NewsRepositoryImpl @Inject constructor(
 
     private suspend fun safeRequest(country: Country): Result<List<ArticleRoom>> {
         return handleRequest {
-            val response = remoteDataSource.getNews2(country = country).map { it.toDbModel() }
+            val response = remoteDataSource.getNews(country = country).map { it.toDbModel() }
             response.map { it.country = country.countryName }
             response
         }
