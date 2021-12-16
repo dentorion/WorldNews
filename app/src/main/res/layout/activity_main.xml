@@ -4,26 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
     tools:context=".presentation.activity.MainActivity">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/my_action_bar"
-        style="@style/Widget.App.Toolbar"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/my_action_bar_container"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="0dp"
+        android:layout_height="wrap_content"
+        app:elevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/bar_menu_country"
-        app:popupTheme="@style/AppTheme.PopupOverlay" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/my_action_bar"
+            style="@style/Widget.App.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:menu="@menu/bar_menu_country" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_menu"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="@dimen/bottom_navigation_view_height"
         android:layout_gravity="bottom"
         android:background="@color/colorPrimary"
         app:itemIconTint="@drawable/bottom_nav_colors"
@@ -38,12 +48,12 @@
         android:id="@+id/navHostFragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/fragment_container_view_height"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/my_action_bar"
+        app:layout_constraintTop_toBottomOf="@+id/my_action_bar_container"
         app:navGraph="@navigation/nav_graph" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

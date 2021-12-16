@@ -35,7 +35,7 @@
         android:paddingEnd="12dp"
         android:paddingBottom="2dp"
         android:singleLine="true"
-        android:textColor="@color/iconColor"
+        android:textColor="@color/white"
         android:textSize="12sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/publishedAt"
@@ -63,7 +63,7 @@
         android:paddingEnd="12dp"
         android:paddingBottom="4dp"
         android:textAllCaps="true"
-        android:textColor="@color/iconColor"
+        android:textColor="@color/white"
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent" />

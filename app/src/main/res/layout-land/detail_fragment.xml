@@ -16,14 +16,12 @@
 
                 <ImageView
                     android:id="@+id/detail_img"
-                    android:layout_width="100dp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="16dp"
                     android:contentDescription="@string/description_image_article"
                     android:src="@drawable/ic_launcher_foreground"
                     app:layout_constraintDimensionRatio="1.0"
                     app:layout_constraintStart_toStartOf="@+id/guideline"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/news_image_landscape" />
 
                 <TextView
                     android:id="@+id/author"
@@ -121,7 +119,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:letterSpacing="0.20"
                     android:text="@string/detail_read_article_btn"
-                    android:textColor="@color/textColor"
+                    android:textColor="@color/white"
                     app:backgroundTint="@null"
                     app:layout_constraintStart_toStartOf="@+id/detail_content"
                     app:layout_constraintTop_toBottomOf="@+id/detail_content" />

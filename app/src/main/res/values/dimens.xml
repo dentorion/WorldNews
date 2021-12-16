@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common -->
+    <dimen name="common_elevation_constraint">0dp</dimen>
+
+    <!-- Activity -->
+    <dimen name="bottom_navigation_view_height">55dp</dimen>
+    <dimen name="fragment_container_view_height">0dp</dimen>
+
+    <!-- Detail Fragment -->
+    <dimen name="constraint_padding_bottom_detail">24dp</dimen>
+    <dimen name="image_height_detail">203dp</dimen>
+
+    <dimen name="detailbar_height_detail">25dp</dimen>
+    <dimen name="detailbar_width_detail">0dp</dimen>
+
+    <dimen name="author_text_size_detail">12sp</dimen>
+
+    <dimen name="publish_time_marginStart_detail">10dp</dimen>
+    <dimen name="publish_time_padding_start_detail">8dp</dimen>
+
+</resources>

@@ -7,32 +7,41 @@
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable-v24/favourite_icon_stroke_light.xml" value="0.318" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable-v24/icon_cleared.xml" value="0.318" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/bottom_nav_colors.xml" value="0.359" />
+        <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/circle.xml" value="0.182" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/country_pl.xml" value="0.2785" />
+        <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/country_ru.xml" value="0.182" />
+        <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/country_ua.xml" value="0.182" />
+        <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/country_us.xml" value="0.182" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/detail_bar_source.xml" value="0.318" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/eye_icon_light.xml" value="0.2785" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/favorite_icon_light.xml" value="0.318" />
+        <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/favourite_icon_stroke_light.xml" value="0.182" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/ic_all_topic.xml" value="0.1555" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/ic_baseline_chat_24.xml" value="0.1555" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/ic_general_topic.xml" value="0.1555" />
+        <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/ic_health_topic.xml" value="0.182" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.3215" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/ic_search.xml" value="0.2785" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/ic_sports_topic.xml" value="0.1555" />
+        <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/icon_article.xml" value="0.1745" />
+        <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/icon_cleared.xml" value="0.182" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/no_img.xml" value="0.246" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/rectangle_black_background.xml" value="0.2785" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/rectangle_blue_background.xml" value="0.1555" />
+        <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/rectangle_coral_background.xml" value="0.182" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/rectangle_green_background.xml" value="0.1555" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/rectangle_light_background.xml" value="0.2785" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/share_icon_light.xml" value="0.318" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/splash.xml" value="0.3215" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/drawable/splash_background.xml" value="0.305" />
-        <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/layout-land/detail_fragment.xml" value="0.1890625" />
+        <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/layout-land/detail_fragment.xml" value="0.1" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/layout-land/dialog_clear_country_news.xml" value="0.41770833333333335" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/layout-land/fragment_article_web_view.xml" value="0.4322916666666667" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/layout-land/fragment_country_news.xml" value="0.33" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/layout-land/fragment_favourite_news.xml" value="0.1" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/layout-land/fragment_news_deleted.xml" value="0.33" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/layout-land/news_item.xml" value="0.6036036036036037" />
-        <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/layout/clear_country_news.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/layout/detail_fragment.xml" value="0.3489583333333333" />
         <entry key="..\:/Users/Denys/AndroidStudioProjects/WorldNews/app/src/main/res/layout/dialog_clear_country_news.xml" value="0.3489583333333333" />
