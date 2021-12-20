@@ -1,4 +1,4 @@
-package com.entin.worldnews.presentation.util
+package com.entin.worldnews.presentation.util.alert
 
 import android.view.View
 import com.google.android.material.snackbar.Snackbar

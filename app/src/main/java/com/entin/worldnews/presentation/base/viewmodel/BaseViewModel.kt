@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.entin.worldnews.domain.model.ViewModelResult
 
 /**
- * For prevent writing all the time <WorldNewsResult<T>> in CountryViewModel
+ * For prevent writing all the time LiveData<ViewModelResult<T>> in CountryViewModel
  */
 typealias LiveResult<T> = LiveData<ViewModelResult<T>>
 typealias MutableLiveResult<T> = MutableLiveData<ViewModelResult<T>>

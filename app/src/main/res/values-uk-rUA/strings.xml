@@ -13,7 +13,7 @@
     <string name="search_type_your_query">Введіть запит</string>
     <string name="search_no_results">Немає результатів</string>
     <string name="search_error_on_loading">Помилка під час завантаження</string>
-    <string name="no_network_connection">Немає підключення до Інтернету</string>
+    <string name="no_network_connection">немає підключення до Інтернету</string>
     <string name="title_usa">США</string>
     <string name="title_russia">Росія</string>
     <string name="title_ukraine">Україна</string>
@@ -22,11 +22,11 @@
     <string name="title_article">Стаття</string>
     <string name="title_favourite">Вибрані новини</string>
     <string name="title_search">Пошук новин</string>
-    <string name="alert_error_news">Помилка завантаження</string>
+    <string name="alert_error_news">Помилка завантаження:</string>
     <string name="alert_empty_news">Список порожній</string>
     <string name="alert_forced_updated_news">Оновлення завершено</string>
     <string name="alert_no_updates">Немає оновлень</string>
-    <string name="unfortunately_error_has_happened">Unfortunately, error has happened!</string>
+    <string name="unfortunately_error_has_happened">Помилка пiдчас завантаження</string>
     <string name="try_again">TRY AGAIN</string>
     <string name="menu_item_search_news">Search news</string>
     <string name="menu_item_favourite_news">Favourite news</string>
@@ -36,5 +36,7 @@
     <string name="menu_item_health_topics">Здоров\'я / Життя</string>
     <string name="menu_item_sports_topics">Спорт</string>
     <string name="menu_item_forced_download">Примусове завантаження</string>
-    <string name="menu_item_clear_old_news">Очистити старi новини</string>
+    <string name="menu_item_clear_old_news">Видалити завантаженi новини</string>
+    <string name="alert_unknown_error">Невiдома помилка</string>
+    <string name="read_news_offline">ЧИТАТИ ЗАВАНТАЖЕНI НОВИНИ</string>
 </resources>

@@ -2,12 +2,12 @@ package com.entin.worldnews.presentation.ui.favourite
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.entin.worldnews.R
 import com.entin.worldnews.databinding.FragmentFavouriteNewsBinding
@@ -17,7 +17,8 @@ import com.entin.worldnews.presentation.base.fragment.BaseFragment
 import com.entin.worldnews.presentation.base.fragment.extension.renderStateExtension
 import com.entin.worldnews.presentation.extension.observe
 import com.entin.worldnews.presentation.extension.visible
-import com.entin.worldnews.presentation.util.simpleShortSnackBar
+import com.entin.worldnews.presentation.util.alert.simpleLongSnackBar
+import com.entin.worldnews.presentation.util.alert.simpleShortSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -72,7 +73,7 @@ class FavouriteNewsFragment :
      */
     private fun initRecyclerView() {
         with(binding) {
-            listViewFavourites.apply {
+            newsRecyclerView.apply {
                 layoutManager = when (resources.configuration.orientation) {
                     Configuration.ORIENTATION_LANDSCAPE -> {
                         LinearLayoutManager(
@@ -128,42 +129,32 @@ class FavouriteNewsFragment :
      * Swipe guest to delete from favourite news
      */
     private fun initDeleteSwipeGuest() {
-        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
-            0,
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        ) {
-            override fun onMove(
-                rv: RecyclerView, vh: RecyclerView.ViewHolder, tg: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val article = favouriteNewsAdapter.currentList[viewHolder.absoluteAdapterPosition]
-                viewModel.deleteFromFavouriteNews(article.url)
-            }
-        }).attachToRecyclerView(binding.listViewFavourites)
+        ItemTouchHelper(
+            ItemTouchHelperCallback(favouriteNewsAdapter, viewModel)
+        ).attachToRecyclerView(binding.newsRecyclerView)
     }
 
     /**
      * What should be done onSuccess received
      */
     private fun onSuccess(viewState: ViewStateFavourites) {
-        if (!viewState.empty && !viewState.deleted) {
-            favouriteNewsAdapter.submitList(viewState.news)
-        }
+        // Set list of news
+        favouriteNewsAdapter.submitList(viewState.news)
+        // Show message after news delete
         if (viewState.deleted) {
             simpleShortSnackBar(
                 requireView(),
                 requireContext().getString(R.string.favourite_not_in_list_no_more)
             )
         }
+        // Show message on empty list of news
         if (viewState.empty) {
-            simpleShortSnackBar(
+            simpleLongSnackBar(
                 requireView(),
                 requireContext().getString(R.string.favourite_empty_list)
             )
         }
+        // Show labels about swiping
         setSwipeLabel(viewState.empty)
         setIconTrash(viewState.empty)
     }
@@ -172,6 +163,7 @@ class FavouriteNewsFragment :
      * Icon basket with trash
      */
     private fun setIconTrash(isSeen: Boolean) {
+        Log.i("Eska", "setIconTrash() : $isSeen")
         binding.iconTrash.visible = isSeen
     }
 
@@ -179,11 +171,12 @@ class FavouriteNewsFragment :
      * Label about swiping
      */
     private fun setSwipeLabel(isSeen: Boolean) {
+        Log.i("Eska", "setSwipeLabel() : $isSeen")
         binding.swipeLabel.visible = !isSeen
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding.listViewFavourites.adapter = null
+        binding.newsRecyclerView.adapter = null
     }
 }

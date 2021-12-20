@@ -3,17 +3,17 @@ package com.entin.worldnews.data.repository
 import com.entin.db.entity.ArticleRoom
 import com.entin.extension.handleRequest
 import com.entin.worldnews.data.datasource.local.LocalDataSource
-import com.entin.worldnews.data.datasource.local.sharedpref.NewsSharedPreferences
+import com.entin.worldnews.data.datasource.local.sharedpref.CacheNewsController
 import com.entin.worldnews.data.datasource.remote.RemoteDataSource
 import com.entin.worldnews.data.extension.toDbModel
 import com.entin.worldnews.data.extension.toDomainModel
 import com.entin.worldnews.domain.model.Article
 import com.entin.worldnews.domain.model.Country
+import com.entin.worldnews.domain.model.UseCaseResult
 import com.entin.worldnews.domain.repository.NewsRepository
-import com.entin.worldnews.presentation.util.TIME_2HOURS_DOWNLOAD_PAUSE
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 /**
@@ -24,23 +24,25 @@ import javax.inject.Inject
 class NewsRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource,
-    private val cacheSettings: NewsSharedPreferences,
+    private val cacheSettingsController: CacheNewsController,
 ) : NewsRepository {
 
+    // All getting news functions
+
     /**
-     * Check news by country were downloaded (inside sugar of timechecking)
-     * Check last lime news downloaded
-     * return from SERVER->DB or DB
+     * Get news
+     * If cache controller allow -> download new news from server,
+     * if not -> get news from database
      */
-    override suspend fun getNews(country: Country): Flow<List<Article>> {
-        return if (cacheSettings.wasDownloaded(country)) {
-            if (checkTimeDifference(cacheSettings.getLastTimeDownloaded(country))) {
-                downloadNews(country)
-            } else {
-                getNewsFromDb(country)
+    override suspend fun getNews(country: Country): Flow<UseCaseResult> = flow {
+        if (cacheSettingsController.isAllowDownloadNews(country)) {
+            downloadNews(country).collect { listNews ->
+                emit(listNews)
             }
         } else {
-            downloadNews(country)
+            getNewsFromDb(country).collect { listNews ->
+                emit(listNews)
+            }
         }
     }
 
@@ -48,30 +50,54 @@ class NewsRepositoryImpl @Inject constructor(
      * Forced downloading news by country
      * Update preferences by country and last download time
      */
-    override suspend fun forcedNewsDownload(country: Country): Flow<List<Article>> {
-        cacheSettings.clearLastDownload(country)
-        return downloadNews(country)
+    override suspend fun forcedNewsDownload(country: Country): Flow<UseCaseResult> = flow {
+        downloadNews(country).collect { listNews ->
+            emit(listNews)
+        }
+    }
+
+    /**
+     * Get news from database in offline mode
+     */
+    override suspend fun getOfflineNews(country: Country): Flow<UseCaseResult> = flow {
+        getNewsFromDb(country).collect { listNews ->
+            emit(listNews)
+        }
     }
 
     /**
      * List of favourites news from DB
      */
-    override suspend fun getFavouriteNews(): Flow<List<Article>> =
-        localDataSource.getFavouriteNews().map { it ->
-            it.map { it.toDomainModel() }
+    override suspend fun getFavouriteNews(): Flow<UseCaseResult> = flow {
+        localDataSource.getFavouriteNews().collect { list ->
+            if (list.isEmpty()) {
+                emit(UseCaseResult.Empty)
+            } else {
+                emit(UseCaseResult.Success(list.map { it.toDomainModel() }))
+            }
         }
+    }
 
     /**
      *  Search news WITHOUT saving to DB
      */
-    override suspend fun getSearchNews(query: String): Flow<List<Article>> = flow {
-        if (query.isNotEmpty()) {
-            emit(remoteDataSource.getSearchNews(query).map { it.toDomainModel() })
-        } else {
-            // listOf<Article>()
-            emit(listOf())
+    override suspend fun getSearchNews(query: String): Flow<UseCaseResult> = flow {
+        query.isNotEmpty().let {
+            getSearchNewsSafeRequest(query).also { result ->
+                result.onSuccess { list ->
+                    if (list.isEmpty()) {
+                        emit(UseCaseResult.Empty)
+                    } else {
+                        emit(UseCaseResult.Success(list))
+                    }
+                }.onFailure { exception ->
+                    emit(UseCaseResult.Error(exception))
+                }
+            }
         }
     }
+
+    // Util functions for working with Article and Delete all saved news
 
     /**
      * Save Searched and Opened article
@@ -100,65 +126,76 @@ class NewsRepositoryImpl @Inject constructor(
         localDataSource.getFavouriteStatusArticle(url = url)
 
     /**
-     * Public function of private calculating
-     */
-    override suspend fun checkLastTimeDownload(country: Country): Boolean =
-        checkTimeDifference(cacheSettings.getLastTimeDownloaded(country))
-
-    /**
      * Delete all news by country
      */
     override suspend fun deleteNewsByCountry(country: Country) {
         localDataSource.deleteNewsByCountry(country)
-        cacheSettings.clearLastDownload(country)
+        cacheSettingsController.clearLastTimeDownload(country)
     }
 
     // Private functions
 
-    private suspend fun downloadNews(country: Country): Flow<List<Article>> {
-        val apiAnswer = getNewsApiAndConvertToDbModel(country)
-        return if (apiAnswer.isNotEmpty()) {
-            cacheSettings.addCurrentTimeByCountry(country)
-            saveNewsDb(apiAnswer)
-            getNewsFromDb(country)
-        } else {
-            getNewsFromDb(country)
-        }
-    }
-
-    private fun checkTimeDifference(longTime: Long): Boolean {
-        if (System.currentTimeMillis().minus(longTime) < TIME_2HOURS_DOWNLOAD_PAUSE) {
-            return false
-        }
-        return true
-    }
-
-    private suspend fun getNewsApiAndConvertToDbModel(country: Country): List<ArticleRoom> {
-        val result = safeRequest(country)
-        return if (result.isSuccess) {
-            if (result.getOrNull() != null) {
-                result.getOrNull()!!
-            } else {
-                listOf()
+    /**
+     * Used by public functions:
+     *  - getNews()
+     *  - forcedNewsDownload()
+     */
+    private suspend fun downloadNews(country: Country) = flow {
+        downloadNewsFromServerApi(country).collect { result ->
+            result.onSuccess { list ->
+                if (list.isEmpty()) {
+                    emit(UseCaseResult.Empty)
+                } else {
+                    cacheSettingsController.clearLastTimeDownload(country)
+                    cacheSettingsController.setLastTimeDownload(country)
+                    saveNewsDb(list)
+                    getNewsFromDb(country = country).collect { newsDb ->
+                        emit(newsDb)
+                    }
+                }
+            }.onFailure { exception ->
+                emit(UseCaseResult.Error(exception))
             }
-        } else {
-            listOf()
         }
     }
 
-    private suspend fun safeRequest(country: Country): Result<List<ArticleRoom>> {
+    /**
+     * Safe request to the server to get news by country
+     */
+    private suspend fun downloadNewsFromServerApi(country: Country): Flow<Result<List<ArticleRoom>>> =
+        flow {
+            emit(handleRequest {
+                remoteDataSource.getNews(country = country)
+                    .map { it.toDbModel() }
+                    .also { list -> list.map { it.country = country.countryName } }
+            })
+        }
+
+    /**
+     * Safe request to the server to get news by search query
+     */
+    private suspend fun getSearchNewsSafeRequest(query: String): Result<List<Article>> {
         return handleRequest {
-            val response = remoteDataSource.getNews(country = country).map { it.toDbModel() }
-            response.map { it.country = country.countryName }
-            response
+            remoteDataSource.getSearchNews(query).map { it.toDomainModel() }
         }
     }
 
-    private fun getNewsFromDb(country: Country): Flow<List<Article>> =
-        localDataSource.getNews(country = country).map { it ->
-            it.map { it.toDomainModel() }
+    /**
+     * Get news from database and convert news to the domain model
+     */
+    private fun getNewsFromDb(country: Country) = flow {
+        localDataSource.getNews(country).collect { list ->
+            if (list.isNotEmpty()) {
+                emit(UseCaseResult.Success(list.map { it.toDomainModel() }))
+            } else {
+                emit(UseCaseResult.Empty)
+            }
         }
+    }
 
+    /**
+     * Save news from server to database
+     */
     private suspend fun saveNewsDb(articles: List<ArticleRoom>) =
         localDataSource.saveNewsToDb(articles = articles)
 }

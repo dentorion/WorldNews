@@ -15,8 +15,8 @@ import com.entin.worldnews.R
 import com.entin.worldnews.databinding.ActivityMainBinding
 import com.entin.worldnews.presentation.extension.navigateSafe
 import com.entin.worldnews.presentation.navigation.NavManager
-import com.entin.worldnews.presentation.util.notification.NotificationWorkManager
 import com.entin.worldnews.presentation.util.WORK_TAG
+import com.entin.worldnews.presentation.util.notification.NotificationWorkManager
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

@@ -31,7 +31,7 @@
     <string name="search_error_on_loading">Error while loading</string>
 
     <!--  Utils  -->
-    <string name="no_network_connection">No network connection</string>
+    <string name="no_network_connection">no network connection</string>
 
     <!--  Titles  -->
     <string name="title_usa">United States</string>
@@ -44,10 +44,11 @@
     <string name="title_search">Search news</string>
 
     <!--  Alerts  -->
-    <string name="alert_error_news">Download error %1$s</string>
+    <string name="alert_error_news">Download error: %1$s</string>
     <string name="alert_empty_news">Empty list</string>
-    <string name="alert_forced_updated_news">Updating is completed</string>
+    <string name="alert_forced_updated_news">"Update completed"</string>
     <string name="alert_no_updates">No updates</string>
+    <string name="alert_unknown_error">Unknown error</string>
 
     <!--  Descriptions  -->
     <string name="description_circle" translatable="false">circle</string>
@@ -58,7 +59,7 @@
     <string name="description_share" translatable="false">share</string>
     <string name="description_author" translatable="false">author</string>
     <string name="description_eye" translatable="false">eye</string>
-    <string name="unfortunately_error_has_happened">Unfortunately, error has happened!</string>
+    <string name="unfortunately_error_has_happened">Downloading error happened</string>
     <string name="try_again">TRY AGAIN</string>
 
     <!-- Menu Items -->
@@ -71,5 +72,6 @@
     <string name="menu_item_sports_topics">Sports topics</string>
     <string name="menu_item_forced_download">Forced download</string>
     <string name="menu_item_clear_old_news">Clear old news</string>
+    <string name="read_news_offline">READ SAVED NEWS OFF-LINE</string>
 
 </resources>

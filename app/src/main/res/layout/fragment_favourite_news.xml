@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listViewFavourites"
+        android:id="@+id/newsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
@@ -40,10 +40,10 @@
         android:layout_height="152dp"
         android:src="@drawable/icon_cleared"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/listViewFavourites"
+        app:layout_constraintBottom_toBottomOf="@+id/newsRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/listViewFavourites"
+        app:layout_constraintTop_toTopOf="@+id/newsRecyclerView"
         android:contentDescription="@string/description_basket" />
 
     <include layout="@layout/part_loading" />

@@ -13,7 +13,7 @@
     <string name="search_type_your_query">Wprowadź zapyt</string>
     <string name="search_no_results">Brak wyników</string>
     <string name="search_error_on_loading">Błąd podczas ładowania</string>
-    <string name="no_network_connection">Brak połączenia sieciowego</string>
+    <string name="no_network_connection">brak połączenia sieciowego</string>
     <string name="title_usa">Stany Zjednoczone</string>
     <string name="title_russia">Rosja</string>
     <string name="title_ukraine">Ukraina</string>
@@ -22,11 +22,11 @@
     <string name="title_article">Artykuł</string>
     <string name="title_favourite">Ulubione wiadomości</string>
     <string name="title_search">Szukaj wiadomości</string>
-    <string name="alert_error_news">Błąd pobierania %1$s</string>
+    <string name="alert_error_news">Błąd pobierania: %1$s</string>
     <string name="alert_empty_news">Pusta lista</string>
     <string name="alert_forced_updated_news">"Aktualizacja zakończona "</string>
     <string name="alert_no_updates">Brak aktualizacji</string>
-    <string name="unfortunately_error_has_happened">Unfortunately, error has happened!</string>
+    <string name="unfortunately_error_has_happened">Unfortunately, error has happened</string>
     <string name="try_again">TRY AGAIN</string>
     <string name="menu_item_search_news">Search news</string>
     <string name="menu_item_favourite_news">Favourite news</string>
@@ -36,5 +36,7 @@
     <string name="menu_item_health_topics">Health topics</string>
     <string name="menu_item_sports_topics">Sports topics</string>
     <string name="menu_item_forced_download">Forced download</string>
-    <string name="menu_item_clear_old_news">Clear old news</string>
+    <string name="menu_item_clear_old_news">Clear saved news</string>
+    <string name="alert_unknown_error">"Nieznany błąd "</string>
+    <string name="read_news_offline">CZYTAJ POBRANE AKTUALNOŚCI OFFLINE</string>
 </resources>

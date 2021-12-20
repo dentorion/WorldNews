@@ -19,7 +19,7 @@ import com.entin.worldnews.presentation.base.fragment.BaseFragment
 import com.entin.worldnews.presentation.base.fragment.extension.renderStateExtension
 import com.entin.worldnews.presentation.extension.observe
 import com.entin.worldnews.presentation.extension.textChanges
-import com.entin.worldnews.presentation.util.simpleShortSnackBar
+import com.entin.worldnews.presentation.util.alert.simpleShortSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -84,8 +84,8 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
      * What should be done onSuccess received
      */
     private fun onSuccess(viewState: ViewStateSearch) {
-        if (viewState.result.isNotEmpty()) {
-            searchAdapter.submitList(viewState.result)
+        if (viewState.news.isNotEmpty()) {
+            searchAdapter.submitList(viewState.news)
         }
         if (viewState.empty) {
             simpleShortSnackBar(
@@ -106,7 +106,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
      */
     private fun initRecyclerView() {
         with(binding) {
-            listViewFavourites.apply {
+            newsRecyclerView.apply {
                 layoutManager = when (resources.configuration.orientation) {
                     Configuration.ORIENTATION_LANDSCAPE -> {
                         LinearLayoutManager(
@@ -192,7 +192,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
     override fun onDestroyView() {
         super.onDestroyView()
         searchAdapter.submitList(listOf())
-        binding.listViewFavourites.adapter = null
+        binding.newsRecyclerView.adapter = null
         searchJob?.cancel()
     }
 }

@@ -9,6 +9,7 @@ import com.entin.worldnews.presentation.base.viewmodel.BaseViewModel
 import com.entin.worldnews.presentation.base.viewmodel.LiveResult
 import com.entin.worldnews.presentation.base.viewmodel.MutableLiveResult
 import com.entin.worldnews.presentation.navigation.NavManager
+import com.entin.worldnews.presentation.ui.country.components.ExceptionMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -28,6 +29,8 @@ class SearchViewModel @Inject constructor(
      */
     private val _stateScreen = MutableLiveResult(SuccessResult(ViewStateSearch()))
     val uiStateSearch: LiveResult<ViewStateSearch> = _stateScreen
+
+    private var currentList = listOf<Article>()
 
     /**
      * Job of getting news
@@ -55,13 +58,28 @@ class SearchViewModel @Inject constructor(
             searchNewsByQueryUseCase(search = searchInput).collect { result ->
                 when (result) {
                     UseCaseResult.Empty -> {
-                        _stateScreen.postValue(SuccessResult(ViewStateSearch(empty = true)))
+                        _stateScreen.postValue(
+                            SuccessResult(
+                                ViewStateSearch(
+                                    news = currentList,
+                                    empty = true
+                                )
+                            )
+                        )
                     }
                     is UseCaseResult.Error -> {
-                        _stateScreen.postValue(ErrorResult(result.e.message!!))
+                        _stateScreen.postValue(
+                            ErrorResult(
+                                ViewStateSearch(
+                                    exception = result.e,
+                                    exceptionMessage = ExceptionMessage.NoInternet
+                                )
+                            )
+                        )
                     }
                     is UseCaseResult.Success -> {
-                        _stateScreen.postValue(SuccessResult(ViewStateSearch(result = result.data)))
+                        currentList = result.data
+                        _stateScreen.postValue(SuccessResult(ViewStateSearch(news = result.data)))
                     }
                 }
             }
@@ -89,13 +107,3 @@ class SearchViewModel @Inject constructor(
         saveSearchedAndOpenedArticleUseCase(article)
     }
 }
-
-/**
- * Inside Ui State of Search Fragment
- */
-data class ViewStateSearch(
-    val initial: Boolean = true,
-    val error: Boolean = false,
-    val empty: Boolean = false,
-    val result: List<Article> = listOf()
-)
