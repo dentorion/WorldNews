@@ -35,6 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_navigation_view_height"
         android:layout_gravity="bottom"
+        app:elevation="0dp"
         android:background="@color/colorPrimary"
         app:itemIconTint="@drawable/bottom_nav_colors"
         app:itemTextColor="@drawable/bottom_nav_colors"

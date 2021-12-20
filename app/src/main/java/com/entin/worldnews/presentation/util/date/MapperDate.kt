@@ -1,7 +1,6 @@
 package com.entin.worldnews.presentation.util.date
 
 object MapperDate {
-
     fun cropPublishedAtToDate(str: String): String {
         return str.split("T")[0]
     }

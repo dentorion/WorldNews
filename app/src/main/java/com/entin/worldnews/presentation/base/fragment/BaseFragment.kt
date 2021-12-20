@@ -27,14 +27,12 @@ abstract class BaseFragment(layoutRes: Int) : Fragment(layoutRes) {
     fun <T> renderResult(
         uiState: ViewModelResult<T>,
         onPending: () -> Unit,
-        onError: (String) -> Unit,
+        onError: (T) -> Unit,
         onSuccess: (T) -> Unit,
-    ) {
-        when (uiState) {
-            is ErrorResult -> onError(uiState.exception)
-            is PendingResult -> onPending()
-            is SuccessResult -> onSuccess(uiState.data)
-        }
+    ) = when (uiState) {
+        is ErrorResult -> onError(uiState.data)
+        is PendingResult -> onPending()
+        is SuccessResult -> onSuccess(uiState.data)
     }
 
     fun initRepeatButton(partLoadingBinding: PartLoadingBinding) {

@@ -8,6 +8,7 @@ import com.entin.worldnews.presentation.base.viewmodel.BaseViewModel
 import com.entin.worldnews.presentation.base.viewmodel.LiveResult
 import com.entin.worldnews.presentation.base.viewmodel.MutableLiveResult
 import com.entin.worldnews.presentation.navigation.NavManager
+import com.entin.worldnews.presentation.ui.country.components.ExceptionMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -32,6 +33,8 @@ class FavouriteViewModel @Inject constructor(
     private val _stateScreen = MutableLiveResult<ViewStateFavourites>(PendingResult())
     val uiStateFavourites: LiveResult<ViewStateFavourites> = _stateScreen
 
+    private var currentList = listOf<Article>()
+
     override fun onRepeat() {
         getFavouriteNewsList()
     }
@@ -41,13 +44,10 @@ class FavouriteViewModel @Inject constructor(
      */
     fun deleteFromFavouriteNews(url: String) = viewModelScope.launch {
         changeFavouriteUseCase(url)
-
         _stateScreen.postValue(
             SuccessResult(
                 ViewStateFavourites(
-                    isLoading = false,
-                    news = listOf(),
-                    empty = false,
+                    news = currentList,
                     deleted = true
                 )
             )
@@ -68,46 +68,33 @@ class FavouriteViewModel @Inject constructor(
      */
     fun getFavouriteNewsList() = viewModelScope.launch {
         getFavouriteNewsUseCase().collect { useCaseResponse ->
-            when(useCaseResponse) {
+            when (useCaseResponse) {
                 UseCaseResult.Empty -> {
                     _stateScreen.postValue(
                         SuccessResult(
-                            ViewStateFavourites(
-                                isLoading = false,
-                                news = listOf(),
-                                empty = true,
-                                deleted = false
-                            )
+                            ViewStateFavourites(empty = true)
                         )
                     )
                 }
                 is UseCaseResult.Error -> {
                     _stateScreen.postValue(
-                        ErrorResult(useCaseResponse.e.message!!)
+                        ErrorResult(
+                            ViewStateFavourites(
+                                exception = useCaseResponse.e,
+                                exceptionMessage = ExceptionMessage.NoInternet
+                            )
+                        )
                     )
                 }
                 is UseCaseResult.Success -> {
+                    currentList = useCaseResponse.data
                     _stateScreen.postValue(
-                    SuccessResult(
-                        ViewStateFavourites(
-                            isLoading = false,
-                            news = useCaseResponse.data,
-                            empty = false,
-                            deleted = false
+                        SuccessResult(
+                            ViewStateFavourites(news = useCaseResponse.data)
                         )
                     )
-                )}
+                }
             }
         }
     }
 }
-
-/**
- * Inside Ui State of Favourite Fragment
- */
-data class ViewStateFavourites(
-    val isLoading: Boolean = true,
-    val news: List<Article> = listOf(),
-    val empty: Boolean = true,
-    val deleted: Boolean = false
-)

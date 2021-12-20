@@ -13,7 +13,7 @@
     <string name="search_type_your_query">Введите запрос</string>
     <string name="search_no_results">Нет результатов</string>
     <string name="search_error_on_loading">Ошибка во время загрузки</string>
-    <string name="no_network_connection">Отсутствует Интернет соединение</string>
+    <string name="no_network_connection">отсутствует Интернет соединение</string>
     <string name="title_usa">США</string>
     <string name="title_russia">Россия</string>
     <string name="title_ukraine">Украина</string>
@@ -24,9 +24,9 @@
     <string name="alert_empty_news">Список пуст</string>
     <string name="alert_forced_updated_news">Обновление завершено</string>
     <string name="title_search">Поиск новостей</string>
-    <string name="alert_error_news">Ошибка загрузки %1$s</string>
+    <string name="alert_error_news">Ошибка загрузки: %1$s</string>
     <string name="alert_no_updates">Нет обновлений</string>
-    <string name="unfortunately_error_has_happened">Unfortunately, error has happened!</string>
+    <string name="unfortunately_error_has_happened">Ошибка во время загрузки</string>
     <string name="try_again">TRY AGAIN</string>
     <string name="menu_item_search_news">Search news</string>
     <string name="menu_item_favourite_news">Favourite news</string>
@@ -36,5 +36,7 @@
     <string name="menu_item_health_topics">Здоровье / Жизнь</string>
     <string name="menu_item_sports_topics">Спорт</string>
     <string name="menu_item_forced_download">Принудительная загрузка</string>
-    <string name="menu_item_clear_old_news">Удалить старые новости</string>
+    <string name="menu_item_clear_old_news">Удалить сохраненные новости</string>
+    <string name="alert_unknown_error">Неизвестная ошибка</string>
+    <string name="read_news_offline">ЧИТАЙТЕ СОХРАНЕННЫЕ НОВОСТИ ОФЛАЙН</string>
 </resources>

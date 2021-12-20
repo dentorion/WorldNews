@@ -3,6 +3,7 @@ package com.entin.worldnews.presentation.ui.country.components
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,10 +19,9 @@ import com.entin.worldnews.domain.model.ViewModelResult
 import com.entin.worldnews.presentation.base.fragment.BaseFragment
 import com.entin.worldnews.presentation.base.fragment.extension.renderStateExtension
 import com.entin.worldnews.presentation.extension.observe
-import com.entin.worldnews.presentation.extension.visible
 import com.entin.worldnews.presentation.ui.dialogs.delete.DeleteFinishedDialog
+import com.entin.worldnews.presentation.util.alert.simpleShortSnackBar
 import com.entin.worldnews.presentation.util.connection.ConnectionCheckLiveData
-import com.entin.worldnews.presentation.util.simpleShortSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -49,22 +49,11 @@ open class CountryFragment(
     // Check connection to Internet
     @Inject
     lateinit var connectionCheckManager: ConnectionCheckLiveData
-    private var isConnected = true
+
 
     // State observer
     private val stateObserver = Observer<ViewModelResult<CountryViewState>> { result ->
         setState(result)
-    }
-
-    /**
-     * Internet connection observer and
-     * Show alert about Internet connection lost
-     */
-    private val connectionObserver = Observer<Boolean> { connection ->
-        isConnected = connection
-        // true -> is connection / visible = false
-        // false -> no connection / visible = true
-        binding.noInternetPart.visible = !isConnected
     }
 
     /**
@@ -76,8 +65,30 @@ open class CountryFragment(
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCountryNewsBinding.inflate(inflater, container, false)
+
+        /**
+         * Internet connection observer and show alert about Internet connection lost
+         * On initial it is null if Internet connection failed
+         */
+        if (connectionCheckManager.value == null) {
+            showInternetConnectionFail(true)
+        }
+        connectionCheckManager.observe(viewLifecycleOwner) { connection ->
+            showInternetConnectionFail(!connection)
+        }
+
         return binding.root
     }
+
+    private fun showInternetConnectionFail(value: Boolean) {
+        binding.noInternetPart.apply {
+            isVisible = value
+        }
+        binding.readNewsOffline.setOnClickListener {
+            viewModel.getOfflineNews(currentCountry)
+        }
+    }
+
 
     // All functions here
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,7 +96,7 @@ open class CountryFragment(
 
         setHasOptionsMenu(true)
 
-        initObservers()
+        initNewsObserver()
 
         initRepeatButton()
 
@@ -95,7 +106,7 @@ open class CountryFragment(
 
         initSwipeGuest()
 
-        loadData()
+        loadData(isForced = false)
     }
 
     /**
@@ -103,11 +114,7 @@ open class CountryFragment(
      *  - Internet connection
      *  - Ui state from viewModel
      */
-    private fun initObservers() {
-        // Internet connection
-        observe(connectionCheckManager, connectionObserver)
-
-        // Ui state observer
+    private fun initNewsObserver() {
         observe(viewModel.stateScreen, stateObserver)
     }
 
@@ -141,7 +148,7 @@ open class CountryFragment(
         }
 
         with(binding) {
-            listViewFavourites.apply {
+            newsRecyclerView.apply {
                 layoutManager = LinearLayoutManager(
                     requireContext().applicationContext,
                     orientationLayoutManager,
@@ -172,13 +179,7 @@ open class CountryFragment(
     /**
      * News get from viewModel
      */
-    private fun loadData(isForced: Boolean = false) {
-        if (!isConnected) {
-            simpleShortSnackBar(
-                requireView(),
-                requireContext().getString(R.string.alert_no_updates)
-            )
-        }
+    private fun loadData(isForced: Boolean) {
         viewModel.loadData(currentCountry, isForced)
     }
 
@@ -206,10 +207,10 @@ open class CountryFragment(
                 requireContext().getString(R.string.alert_forced_updated_news)
             )
         }
-        if (viewState.isSame) {
+        if (viewState.isEmpty) {
             simpleShortSnackBar(
                 requireView(),
-                requireContext().getString(R.string.alert_no_updates)
+                requireContext().getString(R.string.alert_empty_news)
             )
         }
         if (viewState.news.isNotEmpty()) {
@@ -220,11 +221,6 @@ open class CountryFragment(
                 NewsTopic.Sports -> viewState.news.filter { it.category == CATEGORY_SPORTS }
             }
             newsAdapter.submitList(allNews)
-        } else {
-            simpleShortSnackBar(
-                requireView(),
-                requireContext().getString(R.string.alert_empty_news)
-            )
         }
     }
 
@@ -236,7 +232,7 @@ open class CountryFragment(
     }
 
     /**
-     * Country bottom menu listener
+     * Menu bar menu listener
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
@@ -249,7 +245,7 @@ open class CountryFragment(
                 true
             }
             R.id.action_forced_download -> {
-                loadData(true)
+                loadData(isForced = true)
                 true
             }
             R.id.action_delete_all_tasks -> {
@@ -281,7 +277,7 @@ open class CountryFragment(
      */
     override fun onDestroyView() {
         super.onDestroyView()
-        binding.listViewFavourites.adapter = null
+        binding.newsRecyclerView.adapter = null
         _binding = null
     }
 }

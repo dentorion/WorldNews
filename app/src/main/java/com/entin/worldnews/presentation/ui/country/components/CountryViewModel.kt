@@ -3,9 +3,9 @@ package com.entin.worldnews.presentation.ui.country.components
 import androidx.lifecycle.viewModelScope
 import com.entin.worldnews.NavgraphDirections
 import com.entin.worldnews.domain.model.*
-import com.entin.worldnews.domain.usecase.CheckLastTimeDownloadUseCase
 import com.entin.worldnews.domain.usecase.DeleteNewsByCountryUseCase
 import com.entin.worldnews.domain.usecase.GetNewsByCountryUseCase
+import com.entin.worldnews.domain.usecase.GetNewsOfflineUseCase
 import com.entin.worldnews.presentation.base.viewmodel.BaseViewModel
 import com.entin.worldnews.presentation.base.viewmodel.LiveResult
 import com.entin.worldnews.presentation.base.viewmodel.MutableLiveResult
@@ -25,38 +25,47 @@ import javax.inject.Inject
 class CountryViewModel @Inject constructor(
     private val deleteNewsByCountryUseCase: DeleteNewsByCountryUseCase,
     private val getNewsByCountryUseCase: GetNewsByCountryUseCase,
-    private val checkLastTimeDownloadUseCase: CheckLastTimeDownloadUseCase,
+    private val getNewsOfflineUseCase: GetNewsOfflineUseCase,
     private val navManager: NavManager,
 ) : BaseViewModel() {
 
     /**
      * Ui State
-     * with typealias: LiveResult<T> = LiveData<WorldNewsResult<T>>
+     * with typealias: LiveResult<T> = LiveData<ViewModelResult<T>>
      */
     private val _stateScreen = MutableLiveResult<CountryViewState>(PendingResult())
     val stateScreen: LiveResult<CountryViewState> = _stateScreen
 
-    /**
-     * Current country viewModel working with
-     */
+    // Current country viewModel working with
     private lateinit var currentCountry: Country
 
-    /**
-     * Current topic of news
-     */
+    // Current topic of news
     var stateOfNewsTopic: NewsTopic = NewsTopic.All
         private set
 
+    /**
+     * Repeat button behavior in a case of Fail Result
+     */
     override fun onRepeat() {
-        loadData(currentCountry)
+        loadData(currentCountry, isForced = true)
     }
 
     /**
      * Loading news
      */
     fun loadData(currentCountry: Country, isForced: Boolean = false) {
+        _stateScreen.value = PendingResult()
         setCurrentCountry(currentCountry)
         getNewsList(isForced)
+    }
+
+    /**
+     * Get previously saved news from database
+     */
+    fun getOfflineNews(country: Country) = viewModelScope.launch {
+        getNewsOfflineUseCase.invoke(country).collect { result ->
+            onUseCaseResult(result, false)
+        }
     }
 
     /**
@@ -68,19 +77,10 @@ class CountryViewModel @Inject constructor(
     }
 
     /**
-     * On swipe guest reaction: check is last time downloading less than 2 hours from now.
-     * If yes -> this.loadData() / no -> Toast about zero updates (server has rare updates).
+     * Swipe to refresh
      */
     fun onSwipeGuest(country: Country) = viewModelScope.launch {
-        if (checkLastTimeDownloadUseCase(country)) {
-            loadData(country)
-        } else {
-            _stateScreen.postValue(
-                stateScreen.value.takeSuccessOnly()?.let {
-                    SuccessResult(it.copy(isSame = true))
-                }
-            )
-        }
+        loadData(country, true)
     }
 
     /**
@@ -119,37 +119,75 @@ class CountryViewModel @Inject constructor(
     /**
      * Request news in UseCase and react on response
      */
-    private fun getNewsList(isForced: Boolean) {
+    private fun getNewsList(isForced: Boolean = false) =
         viewModelScope.launch {
             getNewsByCountryUseCase(currentCountry, isForced).collect { result ->
-                when (result) {
-                    is UseCaseResult.Success -> {
-                        _stateScreen.postValue(
-                            SuccessResult(CountryViewState(news = result.data, isForced = isForced))
-                        )
-                    }
-                    is UseCaseResult.Error -> {
-                        _stateScreen.postValue(
-                            ErrorResult(result.e.message.toString())
-                        )
-                    }
-                    is UseCaseResult.Empty -> {
-                        _stateScreen.postValue(
-                            SuccessResult(CountryViewState(isForced = isForced))
-                        )
-                    }
-                }
+                onUseCaseResult(result, isForced)
+            }
+        }
+
+    /**
+     * On UseCase Result
+     */
+    private fun onUseCaseResult(
+        result: UseCaseResult,
+        isForced: Boolean
+    ) {
+        when (result) {
+            is UseCaseResult.Success -> {
+                onSuccess(result, isForced)
+            }
+            is UseCaseResult.Error -> {
+                onError(result)
+            }
+            is UseCaseResult.Empty -> {
+                onEmpty(isForced)
             }
         }
     }
-}
 
-/**
- * Inside Ui State of Country Fragment
- */
-data class CountryViewState(
-    val message: String = "",
-    val news: List<Article> = listOf(),
-    val isForced: Boolean = false,
-    val isSame: Boolean = false,
-)
+    /**
+     * On UseCase Result.Success
+     */
+    private fun onSuccess(
+        result: UseCaseResult.Success,
+        isForced: Boolean
+    ) {
+        _stateScreen.postValue(
+            SuccessResult(
+                CountryViewState(
+                    news = result.data,
+                    isForced = isForced,
+                )
+            )
+        )
+    }
+
+    /**
+     * On UseCase Result.Empty
+     */
+    private fun onEmpty(isForced: Boolean) {
+        _stateScreen.postValue(
+            SuccessResult(
+                CountryViewState(
+                    isForced = isForced,
+                    isEmpty = true,
+                )
+            )
+        )
+    }
+
+    /**
+     * On UseCase Result.Error
+     */
+    private fun onError(result: UseCaseResult.Error) {
+        _stateScreen.postValue(
+            ErrorResult(
+                CountryViewState(
+                    exception = result.e,
+                    exceptionMessage = ExceptionMessage.NoInternet
+                )
+            )
+        )
+    }
+}

@@ -114,16 +114,3 @@ class DetailViewModel @Inject constructor(
         navManager.navigate(DetailFragmentDirections.actionGlobalFavouriteNewsFragment())
     }
 }
-
-/**
- * Inside Ui State of Detail Fragment
- */
-data class DetailViewState(
-    val title: String,
-    val author: String,
-    val description: String,
-    val url: String,
-    val urlToImage: String,
-    val publishedAt: String,
-    val publishedTime: String
-)
