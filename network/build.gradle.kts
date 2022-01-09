@@ -1,8 +1,8 @@
 plugins {
-    id ("com.android.library")
-    id ("kotlin-android")
-    id ("kotlin-kapt")
-    id ("dagger.hilt.android.plugin")
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -29,8 +29,8 @@ dependencies {
 
     // Retrofit
     Dependencies.retrofit.apply {
-        api (retrofit)
-        api (gson)
-        api (loggingInterceptor)
+        api(retrofit)
+        api(gson)
+        api(loggingInterceptor)
     }
 }

@@ -75,6 +75,5 @@ class ConnectionCheckLiveData @Inject constructor(
             validNetworks.remove(network)
             checkValidNetworks()
         }
-
     }
 }
