@@ -24,7 +24,7 @@ class CacheNewsController @Inject constructor(@ApplicationContext context: Conte
 
     /**
      * Returns the boolean:
-     * Decision should be news downloaded from server or database
+     * Decision should be: news download from server or database
      *
      * 1. Take last time of downloading
      * 2. If it == Long.MIN_VALUE -> load news from server
@@ -51,11 +51,11 @@ class CacheNewsController @Inject constructor(@ApplicationContext context: Conte
     }
 
     // Get last time news were downloading by country
-    fun getLastTimeDownload(country: Country): Long =
+    private fun getLastTimeDownload(country: Country): Long =
         pref.getLong(country.countryName, Long.MIN_VALUE)
 
     // Check difference between last time news were downloading by country and now
-    fun checkTimeDifference(longTime: Long): Boolean {
+    private fun checkTimeDifference(longTime: Long): Boolean {
         if (System.currentTimeMillis().minus(longTime) < TIME_2HOURS_DOWNLOAD_PAUSE) {
             return false
         }
